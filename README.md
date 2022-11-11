@@ -7,3 +7,5 @@ docker-compose run app alembic upgrade head
 
 docker-compose build
 docker-compose up
+
+pip3 freeze > requirements.txt

@@ -4,7 +4,6 @@ from fastapi_sqlalchemy import DBSessionMiddleware, db
 from dotenv import load_dotenv
 
 from api import usersApi, animalsApi
-
 load_dotenv(".env")
 
 app = FastAPI(

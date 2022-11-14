@@ -11,7 +11,7 @@ class User(BaseModel):
     password: str = Field(default=None)
     photo: str = Field(default=None)
     regulations: int = Field(default=None)
-    sex: str = Field(default=None)
+    sex: int = Field(default=None)
     hidden_posts: int = Field(default=None)
     friends: int = Field(default=None)
 

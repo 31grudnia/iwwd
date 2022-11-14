@@ -1,8 +1,17 @@
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Date, Float, Text
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Date, Float, Text, Enum
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
+import enum
 
 from database.db_setup import Base
+
+class AnimalSex(enum.Enum):
+    male = 1
+    female = 2
+
+class AnimalKind(enum.Enum):
+    dog = 1
+    cat = 2
 
 class Animal(Base):
     __tablename__ = "animal"
@@ -10,7 +19,8 @@ class Animal(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(50))
     birth_date = Column(Date, nullable=True)
-    sex = Column(String(6))
+    sex = Column(Enum(AnimalSex))
+    kind = Column(Enum(AnimalKind))
     weight = Column(Float)
     height = Column(Float)
     photo = Column(String(50), nullable=True)
@@ -19,5 +29,5 @@ class Animal(Base):
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())
 
-    user_id = Column(Integer, ForeignKey("user.id"))
-    user = relationship("User")
+    user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
+    user = relationship("User", back_populates="animal")

@@ -29,3 +29,4 @@ class User(Base):
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())
 
     animal = relationship("Animal", back_populates="user")
+    post = relationship("Post", back_populates="user")

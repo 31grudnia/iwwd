@@ -12,7 +12,7 @@ from dotenv import load_dotenv
     REMEMBER to ADD models in order to regular work of ALEMBIC!!!
 """
 from database.db_setup import Base
-from database.models import AnimalModel, UserModel
+from database.models import AnimalModel, UserModel, PostModel
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

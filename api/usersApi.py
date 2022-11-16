@@ -22,7 +22,7 @@ router = fastapi.APIRouter()
 @router.post("/user/signup/", tags=['user'])
 async def user_signup(user: UserSchema = Body(default=None)):
     user.password = get_password_hash(user.password)
-    db_user = UserModel(name=user.name, surname=user.surname, city=user.city, email=user.email, age=user.age, phone_number=user.phone_number, login=user.login, password=user.password, photo=user.photo, regulations=user.regulations, sex=user.sex, hidden_posts=user.hidden_posts, friends=user.friends)
+    db_user = UserModel(name=user.name, surname=user.surname, city=user.city, email=user.email, age=user.age, phone_number=user.phone_number, login=user.login, password=user.password, photo=user.photo, regulations=user.regulations, sex=user.sex, hidden_posts=user.hidden_posts, friends=user.friends, coins=user.coins)
     db.session.add(db_user)
     db.session.commit()
     return signJWT(user.email)

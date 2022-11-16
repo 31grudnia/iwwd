@@ -25,8 +25,10 @@ class User(Base):
     regulations = Column(Integer, nullable=True)
     sex = Column(Enum(UserSex))
     hidden_posts = Column(Integer, nullable=True)
+    coins = Column(Integer)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())
 
     animal = relationship("Animal", back_populates="user")
     post = relationship("Post", back_populates="user")
+    walk = relationship("Walk", back_populates="user")

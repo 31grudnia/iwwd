@@ -11,7 +11,7 @@ class Post(Base):
     # photo = Column()
     text = Column(Text, nullable=False)
     likes = Column(Integer, nullable=False)
-    reports = Column(Integer, nullable=False)
+    reports = Column(Integer, nullable=True)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())
 

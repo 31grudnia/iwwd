@@ -14,6 +14,7 @@ class User(BaseModel):
     sex: int = Field(default=None)
     hidden_posts: int = Field(default=None)
     friends: int = Field(default=None)
+    coins: int = Field(default=0)
 
     class Config:
         orm_mode = True

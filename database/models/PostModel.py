@@ -17,4 +17,5 @@ class Post(Base):
 
     user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
     user = relationship("User", back_populates="post")
+    comment = relationship("Comment", back_populates="post")
 

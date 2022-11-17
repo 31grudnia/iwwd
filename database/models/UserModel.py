@@ -32,3 +32,4 @@ class User(Base):
     animal = relationship("Animal", back_populates="user")
     post = relationship("Post", back_populates="user")
     walk = relationship("Walk", back_populates="user")
+    comment = relationship("Comment", back_populates="user")

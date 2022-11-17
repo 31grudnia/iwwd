@@ -31,3 +31,6 @@ class Animal(Base):
 
     user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
     user = relationship("User", back_populates="animal")
+    breed_id = Column(Integer, ForeignKey("breed.id"), nullable=False)
+    breed = relationship("Breed", back_populates="animal")
+    post = relationship("Post", back_populates="animal")

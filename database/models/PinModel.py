@@ -8,10 +8,10 @@ class Pin(Base):
     __tablename__ = "pin"
 
     id = Column(Integer, primary_key=True, index=True)
-    latitude = Column(Float, nullable=True)
-    longtitude = Column(Float, nullable=True)
+    latitude = Column(Float, nullable=False)
+    longtitude = Column(Float, nullable=False)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())
 
     animal_id = Column(Integer, ForeignKey("animal.id"), nullable=False)
-    animal = relationship("Animal", back_populates="post")
+    animal = relationship("Animal", back_populates="pin")

@@ -6,6 +6,9 @@ from dotenv import load_dotenv
 from database.models.AnimalModel import Animal as AnimalModel
 from schemas.AnimalSchema import Animal as AnimalSchema
 
+from database.models.PinModel import Pin
+from database.models.BreedModel import Breed
+
 from authentication.authBearer import jwtBearer
 
 load_dotenv(".env")

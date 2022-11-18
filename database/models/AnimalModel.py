@@ -17,12 +17,12 @@ class Animal(Base):
     __tablename__ = "animal"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(50))
+    name = Column(String(50), nullable=False)
     birth_date = Column(Date, nullable=True)
-    sex = Column(Enum(AnimalSex))
-    kind = Column(Enum(AnimalKind))
-    weight = Column(Float)
-    height = Column(Float)
+    sex = Column(Enum(AnimalSex), nullable=False)
+    kind = Column(Enum(AnimalKind), nullable=False)
+    weight = Column(Float, nullable=False)
+    height = Column(Float, nullable=False)
     photo = Column(String(50), nullable=True)
     bio = Column(Text, nullable=True)
     pins = Column(Integer, nullable=True)
@@ -33,4 +33,4 @@ class Animal(Base):
     user = relationship("User", back_populates="animal")
     breed_id = Column(Integer, ForeignKey("breed.id"), nullable=False)
     breed = relationship("Breed", back_populates="animal")
-    post = relationship("Post", back_populates="animal")
+    pin = relationship("Pin", back_populates="animal")

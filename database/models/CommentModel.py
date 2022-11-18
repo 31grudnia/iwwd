@@ -8,8 +8,8 @@ class Comment(Base):
     __tablename__ = "comment"
 
     id = Column(Integer, primary_key=True, index=True)
-    content = Column(String(255))
-    likes = Column(Integer)
+    content = Column(String(256), nullable=False)
+    likes = Column(Integer, nullable=False)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())
 

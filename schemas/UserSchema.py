@@ -1,4 +1,4 @@
-from  pydantic import BaseModel, Field, EmailStr
+from pydantic import BaseModel, Field, EmailStr
 
 class User(BaseModel):
     name: str = Field(default=None)

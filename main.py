@@ -21,20 +21,10 @@ app = FastAPI(
     }
 )
 
-origins = [
-    "http://localhost",
-    "http://localhost:8080",
-    "http://localhost:8090",
-    "http://localhost:3000",
-    "http://localhost:4200",
-    "http://localhost:8000",
-    "http://localhost:5050"
-]
-
 app.add_middleware(DBSessionMiddleware, db_url=os.environ["DATABASE_URL"])
 app.add_middleware(CORSMiddleware,
-                   allow_origins=origins,       # ['*']
-                   allow_credentials=False,     # Should cookies be supported
+                   allow_origins=['*'],       # ['*']
+                   allow_credentials=True,     # Should cookies be supported
                    allow_methods=["*"],         # POST GET etc.
                    allow_headers=["*"],
                    max_age=600)                 # Time in seconds for browsers to cache CORS responses

@@ -1,57 +1,37 @@
-from sqlalchemy import Column, DateTime, Integer, String, Enum
+from sqlalchemy import Column, DateTime, Integer, String, Boolean, ForeignKey, Table
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-import enum
 
 from database.db_setup import Base
 
-class UserSex(enum.Enum):
-    male = 1
-    female = 2
-
-class UserState(enum.Enum):
-    dolnośląskie = 1
-    kujawsko_pomorskie = 2
-    lubelskie = 3
-    lubuskie = 4
-    łódzkie = 5
-    małopolskie = 6
-    mazowieckie = 7
-    opolskie = 8
-    podkarpackie = 9
-    podlaskie = 10
-    pomorskie = 11
-    śląskie = 12
-    świętokrzyskie = 13
-    warmińsko_mazurskie = 14
-    wielkopolskie = 15
-    zachodniopomorskie = 16
+from database.models.PinModel import user_pin_table
 
 
 class User(Base):
     __tablename__ = "user"
+    __table_args__ = {'extend_existing': True}
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(50), nullable=False)
     surname = Column(String(50), nullable=False)
-    city = Column(String(30), nullable=False)
-    state = Column(Enum(UserState), nullable=False)
-    street = Column(String(40), nullable=False)
-    post_code = Column(String(6), nullable=False)
     email = Column(String(50), unique=True, nullable=False)
-    age = Column(Integer, nullable=False)
     phone_number = Column(String(15), unique=True, nullable=False)
     login = Column(String(50), unique=True, nullable=False)
     password = Column(String(80), nullable=False)
-    # photo = Column(String(50), nullable=True)
-    regulations = Column(Integer, nullable=False)        #tablica
-    sex = Column(Enum(UserSex), nullable=True)
-    hidden_posts = Column(Integer, nullable=True)
+    photo = Column(String(80), nullable=True)
+    is_admin = Column(Boolean, nullable=False)
     coins = Column(Integer, nullable=False)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())
 
-    animal = relationship("Animal", back_populates="user")
+    address_id = Column(Integer, ForeignKey("address.id"), nullable=False)
+    address = relationship("Address", back_populates="user")
+
+    pin = relationship("Pin", secondary=user_pin_table, back_populates="user")
+    payment_card = relationship("PaymentCard", back_populates="user")
+    order = relationship("Order", back_populates="user")
+    feedback = relationship("Feedback", back_populates="user")
     post = relationship("Post", back_populates="user")
-    walk = relationship("Walk", back_populates="user")
     comment = relationship("Comment", back_populates="user")
+    animal = relationship("Animal", back_populates="user")
+    walk = relationship("Walk", back_populates="user")

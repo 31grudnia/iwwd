@@ -1,20 +1,16 @@
-from sqlalchemy import Column, DateTime, ForeignKey, String, Enum, Integer
+from sqlalchemy import Column, DateTime, Integer, String
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-import enum
 
 from database.db_setup import Base
 
 
-class Breed(Base):
-    __tablename__ = "breed"
+class Status(Base):
+    __tablename__ = "status"
 
     id = Column(Integer, primary_key=True, index=True)
-    dog_breed = Column(String(30), nullable=True)
-    cat_breed = Column(String(30), nullable=True)
+    name = Column(String(100), nullable=False)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())
 
-    animal = relationship("Animal", back_populates="breed")
-
-    
+    order = relationship("Order", back_populates="status")

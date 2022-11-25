@@ -8,7 +8,7 @@ class Post(Base):
     __tablename__ = "post"
 
     id = Column(Integer, primary_key=True, index=True)
-    # photo = Column()
+    photo = Column(String(80), nullable=False)
     text = Column(Text, nullable=False)
     likes = Column(Integer, nullable=False)
     reports = Column(Integer, nullable=True)
@@ -17,5 +17,6 @@ class Post(Base):
 
     user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
     user = relationship("User", back_populates="post")
+
     comment = relationship("Comment", back_populates="post")
 

@@ -5,7 +5,7 @@ from sqlalchemy.sql import func
 from database.db_setup import Base
 
 
-class PaymentMethod(Base):
+class PaymentMethodCategory(Base):
     __tablename__ = "payment_method_category"
 
     id = Column(Integer, primary_key=True, index=True)

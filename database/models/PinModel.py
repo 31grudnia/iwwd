@@ -1,15 +1,9 @@
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, Float, Table
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, Float
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
 from database.db_setup import Base
 
-user_pin_table = Table(
-    "user_pin_table",
-    Base.metadata,
-    Column("user_id", ForeignKey("user.id"), primary_key=True),
-    Column("pin_id", ForeignKey("pin.id"), primary_key=True),
-)
 
 
 class Pin(Base):
@@ -24,5 +18,5 @@ class Pin(Base):
 
     animal_id = Column(Integer, ForeignKey("animal.id"), nullable=False)
     animal = relationship("Animal", back_populates="pin")
-
-    user = relationship("User", secondary=user_pin_table, back_populates="pin")
+    user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
+    user = relationship("User", back_populates="pin")

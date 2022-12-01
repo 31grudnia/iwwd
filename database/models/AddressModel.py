@@ -4,6 +4,7 @@ from sqlalchemy.sql import func
 
 from database.db_setup import Base
 
+
 class Address(Base):
     __tablename__ = "address"
 

@@ -1,4 +1,5 @@
-from  pydantic import BaseModel, Field, EmailStr
+from pydantic import BaseModel, Field, EmailStr
+
 
 class Register(BaseModel):
     name: str = Field(default=None)
@@ -6,10 +7,10 @@ class Register(BaseModel):
     email: EmailStr = Field(default=None)
     phone_number: str = Field(default=None)
 
-    state: str = Field(default='dolnośląskie')
-    city: str = Field(default=None)
-    post_code: str = Field(default=None)
-    street: str = Field(default=None)
+    # state: str = Field(default=None)
+    # city: str = Field(default=None)
+    # post_code: str = Field(default=None)
+    # street: str = Field(default=None)
 
     login: str = Field(default=None)
     password: str = Field(default=None)

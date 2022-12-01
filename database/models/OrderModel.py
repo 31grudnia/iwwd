@@ -4,8 +4,7 @@ from sqlalchemy.sql import func
 
 from database.db_setup import Base
 
-from database.models.ProductModel import order_product_table
-
+from database.models.OrderProductModel import OrderProduct
 
 
 class Order(Base):
@@ -25,4 +24,4 @@ class Order(Base):
     user = relationship("User", back_populates="order")
 
     post_office = relationship("PostOffice", back_populates="order")
-    product = relationship("Product", secondary=order_product_table, back_populates="order")
+    product = relationship("Product", secondary=OrderProduct.__tablename__, back_populates="order")

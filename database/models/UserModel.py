@@ -1,10 +1,8 @@
-from sqlalchemy import Column, DateTime, Integer, String, Boolean, ForeignKey, Table
+from sqlalchemy import Column, DateTime, Integer, String, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
 from database.db_setup import Base
-
-from database.models.PinModel import user_pin_table
 
 
 class User(Base):
@@ -24,10 +22,10 @@ class User(Base):
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())
 
-    address_id = Column(Integer, ForeignKey("address.id"), nullable=False)
+    address_id = Column(Integer, ForeignKey("address.id"), nullable=True)
     address = relationship("Address", back_populates="user")
 
-    pin = relationship("Pin", secondary=user_pin_table, back_populates="user")
+    pin = relationship("Pin", back_populates="user")
     payment_card = relationship("PaymentCard", back_populates="user")
     order = relationship("Order", back_populates="user")
     feedback = relationship("Feedback", back_populates="user")

@@ -15,6 +15,6 @@ class Feedback(Base):
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())
 
     product_id = Column(Integer, ForeignKey("product.id"), nullable=False)
-    product = relationship("product", back_populates="feedback")
+    product = relationship("Product", back_populates="feedback")
     user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
     user = relationship("User", back_populates="feedback")

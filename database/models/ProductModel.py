@@ -3,14 +3,15 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
 from database.db_setup import Base
+from database.models.OrderProductModel import OrderProduct
 
-order_product_table = Table(
-    "order_product_table",
-    Base.metadata,
-    Column("order_id", ForeignKey("order.id"), primary_key=True),
-    Column("product_id", ForeignKey("product.id"), primary_key=True),
-    Column("amount", Integer, nullable=False),
-)
+# order_product_table = Table(
+#     "order_product_table",
+#     Base.metadata,
+#     Column("order_id", ForeignKey("order.id"), primary_key=True),
+#     Column("product_id", ForeignKey("product.id"), primary_key=True),
+#     Column("amount", Integer, nullable=False),
+# )
 
 
 class Product(Base):
@@ -35,6 +36,6 @@ class Product(Base):
     subcategory_id = Column(Integer, ForeignKey("subcategory.id"), nullable=False)
     subcategory = relationship("Subcategory", back_populates="product")
 
-    order = relationship("Order", secondary=order_product_table, back_populates="product")
+    order = relationship("Order", secondary=OrderProduct.__tablename__, back_populates="product")
     feedback = relationship("Feedback", back_populates="product")
     brand = relationship("Brand", back_populates="product")

@@ -57,4 +57,4 @@ def check_user(db: Session, data: LoginSchema = Body(default=None)):
         raise HTTPException(status_code=402, detail="User not found in database!")
     if not verify_password(data.password, db_user.password):
         raise HTTPException(status_code=402, detail="Wrong password!")
-    return True
+    return db_user

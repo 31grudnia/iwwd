@@ -15,25 +15,6 @@ from database.models.AddressModel import Address as AddressModel
 from schemas.RegisterWebSchema import Register as RegisterWebSchema
 from schemas.LoginSchema import Login as LoginSchema
 
-from database.models.PostModel import Post
-from database.models.WalkModel import Walk
-from database.models.PinModel import Pin
-from database.models.OrderModel import Order
-from database.models.AnimalModel import Animal
-from database.models.CommentModel import Comment
-from database.models.AddressModel import Address
-from database.models.FeedbackModel import Feedback
-from database.models.PaymentCardModel import PaymentCard
-from database.models.StatusModel import Status
-from database.models.PaymentMethodModel import PaymentMethod
-from database.models.PostOfficeModel import PostOffice
-from database.models.OrderProductModel import OrderProduct
-from database.models.ProductModel import Product
-from database.models.PaymentMethodCategoryModel import PaymentMethodCategory
-from database.models.PostOfficeOpenTimeModel import PostOfficeOpenTime
-from database.models.SubcategoryModel import Subcategory
-from database.models.BrandModel import Brand
-from database.models.CategoryModel import Category
 
 from authentication.authHandler import signJWT
 
@@ -74,12 +55,15 @@ async def user_register_web(user: RegisterWebSchema, db: Session = Depends(get_d
 
 @router.post("/user/login/", tags=['user'], status_code=201)
 async def user_login(db: Session = Depends(get_db), user: LoginSchema = Body(default=None)):
-    if check_user(db, user):
-        return signJWT(user.email)
-    raise HTTPException(status_code=401, detail="Invalid login detail!")
+    db_user = check_user(db, user)
+    if db_user is None:
+        raise HTTPException(status_code=401, detail="Invalid login detail!")
+    return {signJWT(user.email),
+            "User Info", db_user}
 
 
-@router.get("/users/", tags=['user'], status_code=201)
+
+@router.get("/users", tags=['user'], status_code=201)
 async def get_users():
     users = db.session.query(UserModel).all()
     return users

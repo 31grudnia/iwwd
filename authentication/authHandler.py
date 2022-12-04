@@ -7,10 +7,12 @@ load_dotenv(".env")
 JWT_SECRET = os.environ["SECRET"]
 JWT_ALGORITHM = os.environ["ALGORITHM"]
 
+
 def tokenResponse(token: str):
     return {
         "acccess token": token
     }
+
 
 # Func for Signing JWT string
 def signJWT(userID: str):
@@ -21,10 +23,10 @@ def signJWT(userID: str):
     token = jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
     return tokenResponse(token)
 
+
 def decodeJWT(token: str):
-     try:
+    try:
         decodeToken = jwt.decode(token, JWT_SECRET, algorithms=JWT_ALGORITHM)
         return decodeToken if decodeToken['expiration'] >= time.time() else None
-     except:
-         return {}
-
+    except:
+        return {}

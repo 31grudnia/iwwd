@@ -5,6 +5,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 from dotenv import load_dotenv
+
 load_dotenv(".env")
 
 SQLALCHEMY_DATABASE_URL = os.environ["DATABASE_URL"]
@@ -18,6 +19,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine, futu
 
 Base = declarative_base()
 
+
 # DB Utilities
 def get_db():
     db = SessionLocal()
@@ -25,7 +27,6 @@ def get_db():
         yield db
     finally:
         db.close()
-
 
 # async def async_get_db():
 #     async with AsyncSessionLocal() as db:

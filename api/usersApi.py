@@ -45,9 +45,9 @@ async def user_register_web(user: RegisterWebSchema, db: Session = Depends(get_d
 
     user_info = add_user_by_web(db, user)
     address_info = add_address_by_web(db, user, user_info)
-    update_addressid_in_user(db=db, user=user_info, address_index=address_info.id, user_index=user_info.id)
+    update_addressid_in_user(db=db, address_index=address_info.id, user_index=user_info.id)
 
-    return {"JWT Token": signJWT(user.email),
+    return {"Tokens": signJWT(user.email),
             "Address Info": address_info,   # nie wyswietla sie nwm czemu
             "User Info": user_info
             }
@@ -55,11 +55,11 @@ async def user_register_web(user: RegisterWebSchema, db: Session = Depends(get_d
 
 @router.post("/user/login/", tags=['user'], status_code=201)
 async def user_login(db: Session = Depends(get_db), user: LoginSchema = Body(default=None)):
-    db_user = check_user(db, user)
-    if db_user is None:
-        raise HTTPException(status_code=401, detail="Invalid login detail!")
-    return {signJWT(user.email),
-            "User Info", db_user}
+    if check_user(db, user):
+        user_info = get_user_by_email(db=db, email=user.email)
+        return {"Tokens": signJWT(user.email),
+                "User Info": user_info}
+    raise HTTPException(status_code=401, detail="Invalid login detail!")
 
 
 

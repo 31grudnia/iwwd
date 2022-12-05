@@ -40,7 +40,7 @@ def add_user_by_web(db: Session, user: RegisterWebSchema):
     return db_user
 
 
-def update_addressid_in_user(db: Session, user: UserModel, address_index: int, user_index: int):
+def update_addressid_in_user(db: Session, address_index: int, user_index: int):
     user_to_update = get_user_by_id(db=db, index=user_index)
     if not user_to_update:
         HTTPException(status_code=403, detail="User NOT found in database!")
@@ -57,4 +57,4 @@ def check_user(db: Session, data: LoginSchema = Body(default=None)):
         raise HTTPException(status_code=402, detail="User not found in database!")
     if not verify_password(data.password, db_user.password):
         raise HTTPException(status_code=402, detail="Wrong password!")
-    return db_user
+    return True

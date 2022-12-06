@@ -5,14 +5,6 @@ from sqlalchemy.sql import func
 from database.db_setup import Base
 from database.models.OrderProductModel import OrderProduct
 
-# order_product_table = Table(
-#     "order_product_table",
-#     Base.metadata,
-#     Column("order_id", ForeignKey("order.id"), primary_key=True),
-#     Column("product_id", ForeignKey("product.id"), primary_key=True),
-#     Column("amount", Integer, nullable=False),
-# )
-
 
 class Product(Base):
     __tablename__ = "product"

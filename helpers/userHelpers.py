@@ -7,6 +7,8 @@ from database.models.UserModel import User as UserModel
 
 from schemas import RegisterWebSchema, LoginSchema
 
+from authentication.authHandler import signJWT
+
 
 def get_users(db: Session, skip: int = 0, limit: int = 100):
     return db.query(UserModel).offset(skip).limit(limit).all()
@@ -31,7 +33,7 @@ def get_user_by_phone_number(db: Session, phone_num: str):
 
 
 def add_user_by_web(db: Session, user: RegisterWebSchema):
-    db_user = UserModel(name=user.name.title(), surname=user.surname.title(), email=user.email,
+    db_user = UserModel(name=user.name.title(), surname=user.surname.title(), email=user.email, refresh_token=signJWT(user.email, 2_600_000),
                         phone_number=user.phone_number, login=user.login, password=get_password_hash(user.password),
                         photo=None, is_admin=False, coins=0)
     db.add(db_user)

@@ -9,7 +9,7 @@ class Category(Base):
     __tablename__ = "category"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(80), nullable=False)
+    name = Column(String(80), unique=True, nullable=False)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())
 

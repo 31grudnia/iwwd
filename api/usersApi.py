@@ -15,7 +15,6 @@ from database.models.AddressModel import Address as AddressModel
 from schemas.RegisterWebSchema import Register as RegisterWebSchema
 from schemas.LoginSchema import Login as LoginSchema
 
-
 from authentication.authHandler import signJWT
 
 load_dotenv(".env")
@@ -47,12 +46,13 @@ async def user_register_web(user: RegisterWebSchema, db: Session = Depends(get_d
     address_info = add_address_by_web(db, user, user_info)
     update_addressid_in_user(db=db, address_index=address_info.id, user_index=user_info.id)
 
-    return {"Tokens": signJWT(user.email),
+    return {"Token": signJWT(user.email),
             "Address Info": address_info,   # nie wyswietla sie nwm czemu
             "User Info": user_info
             }
 
 
+# User Login [ Login as a User either to app and Web ]
 @router.post("/user/login/", tags=['user'], status_code=201)
 async def user_login(db: Session = Depends(get_db), user: LoginSchema = Body(default=None)):
     if check_user(db, user):
@@ -62,7 +62,7 @@ async def user_login(db: Session = Depends(get_db), user: LoginSchema = Body(def
     raise HTTPException(status_code=401, detail="Invalid login detail!")
 
 
-
+# Get all Users
 @router.get("/users", tags=['user'], status_code=201)
 async def get_users():
     users = db.session.query(UserModel).all()

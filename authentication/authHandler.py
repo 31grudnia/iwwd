@@ -15,10 +15,10 @@ def tokenResponse(token: str):
 
 
 # Func for Signing JWT string
-def signJWT(userID: str):
+def signJWT(userID: str, howLong: int = 600):
     payload = {
         "userID": userID,
-        "expiration": time.time() + 600
+        "expiration": time.time() + howLong
     }
     token = jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
     return tokenResponse(token)

@@ -15,6 +15,6 @@ router = fastapi.APIRouter()
     PRODUCT ENDPOINTS
 """
 
-@router.post("/product", tags=['user'], status_code=201)
-async def user_register_web(product: ProductSchema, db: Session = Depends(get_db)):
+@router.post("/product/add", tags=['product'], status_code=201)
+async def product_add(product: ProductSchema, db: Session = Depends(get_db)):
     pass

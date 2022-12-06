@@ -19,6 +19,8 @@ class User(Base):
     photo = Column(String(80), nullable=True)
     is_admin = Column(Boolean, nullable=False)
     coins = Column(Integer, nullable=False)
+    refresh_token = Column(String(255), nullable=False)
+    recovery_token = Column(String(255), nullable=True)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())
 

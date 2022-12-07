@@ -29,7 +29,7 @@ def get_user_by_login(db: Session, login: str):
 def get_user_by_phone_number(db: Session, phone_num: str):
     if len(phone_num) == 9:
         return db.query(UserModel).filter(UserModel.phone_number == phone_num).first()
-    raise HTTPException(status_code=402, detail="Wrong phone number given!")
+    raise HTTPException(status_code=402, detail="Wrong phone number given! (userHelpers file)")
 
 
 def add_user_by_web(db: Session, user: RegisterWebSchema):
@@ -45,7 +45,7 @@ def add_user_by_web(db: Session, user: RegisterWebSchema):
 def update_addressid_in_user(db: Session, address_index: int, user_index: int):
     user_to_update = get_user_by_id(db=db, index=user_index)
     if not user_to_update:
-        HTTPException(status_code=403, detail="User NOT found in database!")
+        HTTPException(status_code=402, detail="User NOT found in database! (userHelpers file)")
     setattr(user_to_update, 'address_id', address_index)
     db.add(user_to_update)
     db.commit()
@@ -56,7 +56,7 @@ def update_addressid_in_user(db: Session, address_index: int, user_index: int):
 def check_user(db: Session, data: LoginSchema = Body(default=None)):
     db_user = get_user_by_email(db=db, email=data.email)
     if db_user is None:
-        raise HTTPException(status_code=402, detail="User not found in database!")
+        raise HTTPException(status_code=402, detail="User not found in database! (userHelpers file)")
     if not verify_password(data.password, db_user.password):
-        raise HTTPException(status_code=402, detail="Wrong password!")
+        raise HTTPException(status_code=402, detail="Wrong password! (userHelpers file)")
     return True

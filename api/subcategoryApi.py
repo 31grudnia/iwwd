@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 from helpers.subcategoryHelpers import add_subcategory, get_subcategories
 
-from schemas.SubcategorySchema import Subcategory as SubcategorySchema
+from schemas.CategorySchema import Category as CategorySchema
 
 
 load_dotenv(".env")
@@ -20,7 +20,7 @@ router = fastapi.APIRouter()
 
 
 @router.post("/subcategry/add/{category_id}", tags=['subcategory'], status_code=201)
-async def subcategory_add(category_id: int, subcategory: SubcategorySchema, db: Session = Depends(get_db)):
+async def subcategory_add(category_id: int, subcategory: CategorySchema, db: Session = Depends(get_db)):
     return {"Added subcategory": add_subcategory(db=db, subcategory=subcategory, category_id=category_id)}
 
 

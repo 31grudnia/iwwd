@@ -13,6 +13,8 @@ class Product(BaseModel):
     ingredients: str = Field(default=None)
     dosage: str = Field(default=None)
     favourite: bool = Field(default=False)
+    subcategory_id: int
+    brand_id: int
 
     class Config:
         orm_mode = True

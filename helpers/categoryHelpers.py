@@ -2,6 +2,8 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException
 
 from database.models.CategoryModel import Category as CategoryModel
+from database.models.SubcategoryModel import Subcategory as SubcategoryModel
+
 
 from schemas import CategorySchema
 
@@ -12,6 +14,10 @@ def get_category(db: Session, category_id: int):
 
 def get_categories(db: Session, skip: int = 0, limit: int = 100):
     return db.query(CategoryModel).offset(skip).limit(limit).all()
+
+
+def get_categories_with_subs(db: Session):
+    return db.query(CategoryModel, SubcategoryModel).filter(CategoryModel.id == SubcategoryModel.category_id).all()
 
 
 def get_category_by_name(db: Session, name: str):

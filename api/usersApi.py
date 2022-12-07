@@ -6,7 +6,8 @@ from database.db_setup import get_db
 from dotenv import load_dotenv
 
 from helpers.passwordHelpers import get_password_hash
-from helpers.userHelpers import check_user, add_user_by_web, get_user_by_login, get_user_by_email, update_addressid_in_user
+from helpers.userHelpers import check_user, add_user_by_web, get_user_by_login, get_user_by_email, \
+    update_addressid_in_user, get_user_by_phone_number
 from helpers.addressHelpers import add_address_by_web
 
 from database.models.UserModel import User as UserModel
@@ -33,6 +34,10 @@ async def user_register_web(user: RegisterWebSchema, db: Session = Depends(get_d
 
     if len(user.phone_number) != 9:
         raise HTTPException(status_code=401, detail="Wrong phone number!")
+
+    db_user = get_user_by_phone_number(db=db, phone_num=user.phone_number)
+    if db_user:
+        raise HTTPException(status_code=401, detail="Phone number exists!")
 
     db_user = get_user_by_email(db=db, email=user.email)
     if db_user:

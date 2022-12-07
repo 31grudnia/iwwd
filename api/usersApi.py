@@ -35,18 +35,6 @@ async def user_register_web(user: RegisterWebSchema, db: Session = Depends(get_d
     if len(user.phone_number) != 9:
         raise HTTPException(status_code=401, detail="Wrong phone number!")
 
-    db_user = get_user_by_phone_number(db=db, phone_num=user.phone_number)
-    if db_user:
-        raise HTTPException(status_code=401, detail="Phone number exists!")
-
-    db_user = get_user_by_email(db=db, email=user.email)
-    if db_user:
-        raise HTTPException(status_code=401, detail="Email already registered!")
-
-    db_user = get_user_by_login(db=db, login=user.login)
-    if db_user:
-        raise HTTPException(status_code=401, detail="Login already registered!")
-
     user_info = add_user_by_web(db, user)
     address_info = add_address_by_web(db, user, user_info)
     update_addressid_in_user(db=db, address_index=address_info.id, user_index=user_info.id)

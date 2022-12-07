@@ -33,6 +33,18 @@ def get_user_by_phone_number(db: Session, phone_num: str):
 
 
 def add_user_by_web(db: Session, user: RegisterWebSchema):
+    db_user = get_user_by_phone_number(db=db, phone_num=user.phone_number)
+    if db_user:
+        raise HTTPException(status_code=401, detail="Phone number exists!")
+
+    db_user = get_user_by_email(db=db, email=user.email)
+    if db_user:
+        raise HTTPException(status_code=401, detail="Email already registered!")
+
+    db_user = get_user_by_login(db=db, login=user.login)
+    if db_user:
+        raise HTTPException(status_code=401, detail="Login already registered!")
+
     db_user = UserModel(name=user.name.title(), surname=user.surname.title(), email=user.email, #refresh_token=signJWT(user.email, 2_600_000),
                         phone_number=user.phone_number, login=user.login, password=get_password_hash(user.password),
                         photo=None, is_admin=False, coins=0)

@@ -1,9 +1,8 @@
 from pydantic import BaseModel, Field
 
 
-class Category(BaseModel):
+class Subcategory(BaseModel):
     name: str = Field(default=None)
-
 
     class Config:
         orm_mode = True

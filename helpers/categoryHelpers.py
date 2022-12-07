@@ -1,9 +1,13 @@
 from sqlalchemy.orm import Session
-from fastapi import Body, HTTPException
+from fastapi import HTTPException
 
 from database.models.CategoryModel import Category as CategoryModel
 
 from schemas import CategorySchema
+
+
+def get_category(db: Session, category_id: int):
+    return db.query(CategoryModel).filter(CategoryModel.id == category_id).first()
 
 
 def get_categories(db: Session, skip: int = 0, limit: int = 100):

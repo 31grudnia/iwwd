@@ -1,4 +1,4 @@
-from sqlalchemy import Column, DateTime, Integer, String, ForeignKey, Float, Boolean, Table
+from sqlalchemy import Column, DateTime, Integer, String, ForeignKey, Float, Boolean, Table, Text
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
@@ -13,7 +13,7 @@ class Product(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(80), unique=True, nullable=False)
     short_description = Column(String(80), nullable=True)
-    long_description = Column(String(256), nullable=True)
+    long_description = Column(Text, nullable=True)
     price = Column(Float, nullable=False)
     base_price = Column(Float, nullable=False)
     discount_price = Column(Float, nullable=True)

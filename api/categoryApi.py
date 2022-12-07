@@ -26,4 +26,4 @@ async def category_add(category: CategorySchema, db: Session = Depends(get_db)):
 
 @router.get("/categories", tags=['category'], status_code=201)
 async def categories_get(db: Session = Depends(get_db)):
-    return {get_categories(db=db)}
+    return {"Categories": get_categories(db=db)}

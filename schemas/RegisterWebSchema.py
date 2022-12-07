@@ -16,3 +16,6 @@ class Register(BaseModel):
     login: str = Field(default=None)
     password: str = Field(default=None)
     password_repeat: str = Field(default=None)
+
+    class Config:
+        orm_mode = True

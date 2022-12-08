@@ -9,7 +9,7 @@
 2. Uruchomienie Kontera:
 
 ```bash
-  docker-compose build
+  docker-compose up
 ```
 
 3. Następnie przechodzimy do bazy danych (domyślnie [localhost:5050](localhost:5050))
@@ -37,7 +37,7 @@
 9. Popchnięcie migracji:
 
 ```bash
-  docker-compose run upgrade head
+  docker-compose run app alembic upgrade head
 ```
 
 # For Mikołaj only 

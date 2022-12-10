@@ -6,8 +6,6 @@ from dotenv import load_dotenv
 from database.models.AnimalModel import Animal as AnimalModel
 from schemas.AnimalSchema import Animal as AnimalSchema
 
-from database.models.PinModel import Pin
-from database.models.BreedModel import Breed
 
 from authentication.authBearer import jwtBearer
 
@@ -17,14 +15,17 @@ router = fastapi.APIRouter()
 """
     ANIMAL ENDPOINTS
 """
-@router.post("/add-animal/", dependencies=[Depends(jwtBearer())], tags=['animal'])
+
+
+@router.post("//", tags=['animal'])
 async def add_animal(animal: AnimalSchema):
     db_animal = AnimalModel(name=animal.name, user_id=animal.user_id)
     db.session.add(db_animal)
     db.session.commit()
     return db_animal
 
-@router.get("/animals/")
+
+@router.get("/animals/", tags=['animal'])
 async def get_animals():
     animals = db.session.query(AnimalModel).all()
 

@@ -1,13 +1,15 @@
 import fastapi
 from fastapi import Depends
-from fastapi_sqlalchemy import db
+from sqlalchemy.orm import Session
+from database.db_setup import get_db
 from dotenv import load_dotenv
 
-from database.models.AnimalModel import Animal as AnimalModel
-from schemas.AnimalSchema import Animal as AnimalSchema
-
+from helpers.animalHelpers import get_animals, add_animal, get_animals_with_same_user_id, update_animal_by_id
 
 from authentication.authBearer import jwtBearer
+
+from schemas.AnimalSchema import Animal as AnimalSchema
+from schemas.AnimalUpdateSchema import UpdateAnimal as AnimalUpdateSchema
 
 load_dotenv(".env")
 router = fastapi.APIRouter()
@@ -17,16 +19,21 @@ router = fastapi.APIRouter()
 """
 
 
-@router.post("//", tags=['animal'])
-async def add_animal(animal: AnimalSchema):
-    db_animal = AnimalModel(name=animal.name, user_id=animal.user_id)
-    db.session.add(db_animal)
-    db.session.commit()
-    return db_animal
+@router.post("/animal/{user_id}/add", tags=['animal'], status_code=201)
+async def animal_add(animal: AnimalSchema, user_id: int, db: Session = Depends(get_db)):
+    return {"Added animal": add_animal(db=db, animal=animal, user_id=user_id)}
 
 
-@router.get("/animals/", tags=['animal'])
-async def get_animals():
-    animals = db.session.query(AnimalModel).all()
+@router.get("/animals/", tags=['animal'], status_code=201)
+async def animals_get(db: Session = Depends(get_db)):
+    return {"All animals": get_animals(db=db)}
 
-    return animals
+
+@router.get("/users/{user_id}/animals", tags=['animal'], status_code=201)
+async def animals_get_with_same_user_id(user_id: int, db: Session = Depends(get_db)):
+    return {f"Animals with user_id: {user_id}": get_animals_with_same_user_id(db=db, user_id=user_id)}
+
+
+@router.patch("/animal/{animal_id}", tags=['animal'], status_code=201)
+async def animal_update_by_id(animal: AnimalUpdateSchema, animal_id: int, db: Session = Depends(get_db)):
+    return {f"Updated animal with id {animal_id}": update_animal_by_id(db=db, animal=animal, animal_id=animal_id)}

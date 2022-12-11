@@ -1,8 +1,9 @@
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Date, Float, Text, Enum
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Date, Float, Text
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
 from database.db_setup import Base
+
 
 class Animal(Base):
     __tablename__ = "animal"
@@ -15,7 +16,7 @@ class Animal(Base):
     weight = Column(Float, nullable=False)
     height = Column(Float, nullable=False)
     photo = Column(String(80), nullable=True)
-    bio = Column(Text, nullable=True)
+    bio = Column(String(256), nullable=True)
     pins = Column(Integer, nullable=True)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())

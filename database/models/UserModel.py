@@ -10,10 +10,10 @@ class User(Base):
     __table_args__ = {'extend_existing': True}
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(50), nullable=False)
-    surname = Column(String(50), nullable=False)
+    name = Column(String(50), nullable=True)
+    surname = Column(String(50), nullable=True)
     email = Column(String(50), unique=True, nullable=False)
-    phone_number = Column(String(15), unique=True, nullable=False)
+    phone_number = Column(String(15), unique=True, nullable=True)
     login = Column(String(50), unique=True, nullable=False)
     password = Column(String(80), nullable=False)
     photo = Column(String(80), nullable=True)

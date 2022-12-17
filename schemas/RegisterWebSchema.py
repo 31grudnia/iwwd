@@ -1,10 +1,10 @@
-from pydantic import BaseModel, Field, EmailStr
+from pydantic import Field
+from schemas.RegisterMobileSchema import MobileRegister
 
 
-class Register(BaseModel):
+class WebRegister(MobileRegister):
     name: str = Field(default=None)
     surname: str = Field(default=None)
-    email: EmailStr = Field(default=None)
     phone_number: str = Field(default=None)
 
     state: str = Field(default=None)
@@ -13,8 +13,6 @@ class Register(BaseModel):
     post_code: str = Field(default=None)
     street: str = Field(default=None)
 
-    login: str = Field(default=None)
-    password: str = Field(default=None)
     password_repeat: str = Field(default=None)
 
     class Config:

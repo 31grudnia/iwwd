@@ -55,3 +55,12 @@ def update_animal_by_id(db: Session, animal: AnimalUpdateSchema, animal_id: int)
     db.commit()
     db.refresh(check_animal)
     return check_animal
+
+
+def delete_animal_by_id(db: Session, animal_id: int):
+    check_animal = get_animal_by_id(db=db, animal_id=animal_id)
+    if check_animal is None:
+        raise HTTPException(status_code=406, detail="Animal doesnt exist! (animalHelpers file)")
+    db.delete(check_animal)
+    db.commit()
+    return {"message": "Record successfully deleted"}

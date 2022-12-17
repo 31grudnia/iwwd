@@ -4,7 +4,7 @@ from fastapi_sqlalchemy import DBSessionMiddleware, db
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 
-from api import usersApi, animalsApi, productApi, categoryApi, subcategoryApi, brandApi, breedApi
+from api import usersApi, animalsApi, productApi, categoryApi, subcategoryApi, brandApi, breedApi, dbGeneratorApi
 
 load_dotenv(".env")
 
@@ -42,3 +42,4 @@ app.include_router(categoryApi.router)
 app.include_router(subcategoryApi.router)
 app.include_router(brandApi.router)
 app.include_router(breedApi.router)
+app.include_router(dbGeneratorApi.router)

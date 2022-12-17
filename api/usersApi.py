@@ -6,14 +6,15 @@ from database.db_setup import get_db
 from dotenv import load_dotenv
 
 from helpers.passwordHelpers import get_password_hash
-from helpers.userHelpers import check_user, add_user_by_web, get_user_by_login, get_user_by_email, \
-    update_addressid_in_user, get_user_by_phone_number
+from helpers.userHelpers import check_login_user, add_user_by_web, get_user_by_login, get_user_by_email, \
+    update_addressid_in_user, get_user_by_phone_number, add_user_by_mobile
 from helpers.addressHelpers import add_address_by_web
 
 from database.models.UserModel import User as UserModel
 from database.models.AddressModel import Address as AddressModel
 
-from schemas.RegisterWebSchema import Register as RegisterWebSchema
+from schemas.RegisterWebSchema import WebRegister as RegisterWebSchema
+from schemas.RegisterMobileSchema import MobileRegister as RegisterMobileSchema
 from schemas.LoginSchema import Login as LoginSchema
 
 from authentication.authHandler import signJWT
@@ -45,10 +46,16 @@ async def user_register_web(user: RegisterWebSchema, db: Session = Depends(get_d
             }
 
 
-# User Login [ Login as a User either to app and Web ]
+@router.post("/user/mobile_register", tags=['user'], status_code=201)
+async def user_register_mobile(user: RegisterMobileSchema, db: Session = Depends(get_db)):
+    return {"Token": signJWT(user.email),
+            "User Info": add_user_by_mobile(db=db, user=user)}
+
+
+# User Login [ Login as a User either to mobile app and Web ]
 @router.post("/user/login/", tags=['user'], status_code=201)
 async def user_login(db: Session = Depends(get_db), user: LoginSchema = Body(default=None)):
-    if check_user(db, user):
+    if check_login_user(db, user):
         user_info = get_user_by_email(db=db, email=user.email)
         return {"Tokens": signJWT(user.email),
                 "User Info": user_info}

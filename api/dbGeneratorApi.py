@@ -14,6 +14,7 @@ router = fastapi.APIRouter()
     USER GENERATOR ENDPOINT
 """
 
+
 # Insert the records into the database
 @router.post("/records", tags=['generator'], status_code=201)
 async def generator_users(n: int, db: Session = Depends(get_db)):

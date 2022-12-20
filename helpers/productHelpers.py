@@ -34,9 +34,15 @@ def add_product(db: Session, product: ProductSchema):
     if check_brand is None:
         raise HTTPException(status_code=406, detail="Brand doesnt exist! (productHelpers file)")
 
-    db_product = ProductModel(title=product.title.title(), short_description=product.short_description, long_description=product.long_description,
-                              price=product.price, base_price=product.base_price, discount_price=product.discount_price, discount_amount=product.discount_amount,
-                              rate=product.rate, ingredients=product.ingredients, dosage=product.dosage, favourite=product.favourite,
+    db_product = ProductModel(title=product.title.title(), short_description=product.short_description,
+                              long_description=product.long_description,
+                              price=calculate_product_price(base_price=product.base_price,
+                                                            discount_price=product.discount_price,
+                                                            discount_amount=product.discount_amount),
+                              base_price=product.base_price, discount_price=product.discount_price,
+                              discount_amount=product.discount_amount,
+                              rate=product.rate, ingredients=product.ingredients, dosage=product.dosage,
+                              favourite=product.favourite,
                               subcategory_id=product.subcategory_id, brand_id=product.brand_id)
     db.add(db_product)
     db.commit()
@@ -57,19 +63,20 @@ def update_product_by_id(db: Session, product: ProductSchema, product_id: int):
     if check_brand is None:
         raise HTTPException(status_code=406, detail="Brand doesnt exist! (productHelpers file)")
 
-    check_product.title=product.title.title()
-    check_product.short_description=product.short_description
-    check_product.long_description=product.long_description
-    check_product.price=product.price
-    check_product.base_price=product.base_price
-    check_product.discount_price=product.discount_price
-    check_product.discount_amount=product.discount_amount
-    check_product.rate=product.rate
-    check_product.ingredients=product.ingredients
-    check_product.dosage=product.dosage
-    check_product.favourite=product.favourite
-    check_product.subcategory_id=product.subcategory_id
-    check_product.brand_id=product.brand_id
+    check_product.title = product.title.title()
+    check_product.short_description = product.short_description
+    check_product.long_description = product.long_description
+    check_product.price = calculate_product_price(base_price=product.base_price, discount_price=product.discount_price,
+                                                  discount_amount=product.discount_amount)
+    check_product.base_price = product.base_price
+    check_product.discount_price = product.discount_price
+    check_product.discount_amount = product.discount_amount
+    check_product.rate = product.rate
+    check_product.ingredients = product.ingredients
+    check_product.dosage = product.dosage
+    check_product.favourite = product.favourite
+    check_product.subcategory_id = product.subcategory_id
+    check_product.brand_id = product.brand_id
 
     db.commit()
     db.refresh(check_product)
@@ -85,4 +92,5 @@ def delete_product_by_id(db: Session, product_id: int):
     return {"message": "Record successfully deleted"}
 
 
-# def for counting prrice
+def calculate_product_price(base_price: float, discount_price: float, discount_amount: int):
+    return base_price - discount_price * discount_amount

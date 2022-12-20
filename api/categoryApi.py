@@ -1,6 +1,5 @@
 import fastapi
-from fastapi import Body, HTTPException, Depends
-from fastapi_sqlalchemy import db
+from fastapi import Depends
 from sqlalchemy.orm import Session
 from database.db_setup import get_db
 from dotenv import load_dotenv

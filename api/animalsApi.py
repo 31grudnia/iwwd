@@ -7,7 +7,6 @@ from dotenv import load_dotenv
 from helpers.animalHelpers import get_animals, add_animal, get_animals_with_same_user_id, update_animal_by_id, \
     delete_animal_by_id
 
-from authentication.authBearer import jwtBearer
 
 from schemas.AnimalSchema import Animal as AnimalSchema
 from schemas.AnimalUpdateSchema import UpdateAnimal as AnimalUpdateSchema

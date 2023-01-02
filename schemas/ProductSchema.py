@@ -14,6 +14,7 @@ class Product(BaseModel):
     favourite: bool = Field(default=False)
     subcategory_id: int
     brand_id: int
+    type: str = Field(default="other")
 
     class Config:
         orm_mode = True

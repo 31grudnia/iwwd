@@ -1,4 +1,4 @@
-from sqlalchemy import Column, DateTime, Integer, String, ForeignKey, Float, Boolean, Table, Text
+from sqlalchemy import Column, DateTime, Integer, String, ForeignKey, Float, Boolean, Table, Text, LargeBinary
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
@@ -23,6 +23,8 @@ class Product(Base):
     rate = Column(Integer, nullable=True)
     ingredients = Column(String(256), nullable=True)
     dosage = Column(String(256), nullable=True)
+    type = Column(String(10), nullable=False)
+    photo = Column(LargeBinary, nullable=True)
     favourite = Column(Boolean, nullable=True)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())

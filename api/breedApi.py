@@ -6,7 +6,6 @@ from dotenv import load_dotenv
 
 from helpers.breedHelpers import add_breed, get_breeds
 
-from authentication.authBearer import jwtBearer
 
 from schemas.BreedSchema import Breed as BreedSchema
 

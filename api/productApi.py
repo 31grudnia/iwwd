@@ -7,7 +7,6 @@ from dotenv import load_dotenv
 from helpers.productHelpers import add_product, get_products, get_product_by_id, update_product_by_id, \
     delete_product_by_id
 
-from authentication.authBearer import jwtBearer
 
 from schemas.ProductSchema import Product as ProductSchema
 
@@ -19,7 +18,7 @@ router = fastapi.APIRouter()
     PRODUCT ENDPOINTS
 """
 
-
+# , dependencies=[Depends(jwtBearer())]
 @router.post("/product/add", tags=['product'], status_code=201)
 async def product_add(product: ProductSchema, db: Session = Depends(get_db)):
     return {"Added product": add_product(db=db, product=product)}

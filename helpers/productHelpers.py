@@ -94,3 +94,5 @@ def delete_product_by_id(db: Session, product_id: int):
 
 def calculate_product_price(base_price: float, discount_price: float, discount_amount: int):
     return base_price - discount_price * discount_amount
+
+

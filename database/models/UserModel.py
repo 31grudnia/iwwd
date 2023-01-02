@@ -1,4 +1,4 @@
-from sqlalchemy import Column, DateTime, Integer, String, Boolean, ForeignKey
+from sqlalchemy import Column, DateTime, Integer, String, Boolean, ForeignKey, LargeBinary, ARRAY
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
@@ -16,9 +16,11 @@ class User(Base):
     phone_number = Column(String(15), unique=True, nullable=True)
     login = Column(String(50), unique=True, nullable=False)
     password = Column(String(80), nullable=False)
-    photo = Column(String(80), nullable=True)
+    photo = Column(LargeBinary, nullable=True)
     is_admin = Column(Boolean, nullable=False)
     coins = Column(Integer, nullable=False)
+    favourites = Column(ARRAY(Integer), nullable=True)
+    disabled = Column(Boolean, nullable=False)
     refresh_token = Column(String(255), nullable=True)
     recovery_token = Column(String(255), nullable=True)
     time_created = Column(DateTime(timezone=True), server_default=func.now())

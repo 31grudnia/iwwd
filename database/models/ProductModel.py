@@ -24,7 +24,7 @@ class Product(Base):
     ingredients = Column(String(256), nullable=True)
     dosage = Column(String(256), nullable=True)
     type = Column(String(10), nullable=False)
-    photo = Column(LargeBinary, nullable=True)
+    photo_url = Column(String(255), nullable=True)
     favourite = Column(Boolean, nullable=True)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())

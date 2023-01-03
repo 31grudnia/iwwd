@@ -45,7 +45,7 @@ def add_user_by_web(db: Session, user: RegisterWebSchema):
 
     db_user = UserModel(name=user.name.title(), surname=user.surname.title(), email=user.email, #refresh_token=signJWT(user.email, 2_600_000),
                         phone_number=user.phone_number, login=user.login, password=get_password_hash(user.password),
-                        photo=None, is_admin=False, coins=0, disabled=False)
+                        photo_url=None, is_admin=False, coins=0, disabled=False)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -62,7 +62,7 @@ def add_user_by_mobile(db: Session, user: RegisterMobileSchema):
         raise HTTPException(status_code=401, detail="Email already registered! (userHelpers file)")
 
     db_user = UserModel(email=user.email, login=user.login, password=get_password_hash(user.password),
-                        photo=None, is_admin=False, coins=0, favourites=[], disabled=False)
+                        photo_url=None, is_admin=False, coins=0, favourites=[], disabled=False)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)

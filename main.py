@@ -1,6 +1,6 @@
 import os
 from fastapi import FastAPI
-from fastapi_sqlalchemy import DBSessionMiddleware, db
+from fastapi_sqlalchemy import DBSessionMiddleware
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv

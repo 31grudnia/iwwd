@@ -1,7 +1,7 @@
 from fastapi import File, UploadFile, HTTPException
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
-from PIL import Image
+from database.firebase_setup import storage
+from urllib.parse import urlparse
+import imghdr
 import secrets
 
 from sqlalchemy.orm import Session
@@ -9,45 +9,45 @@ from sqlalchemy.orm import Session
 from database.models.UserModel import User as UserModel
 
 from helpers.userHelpers import get_user_by_id
+from authentication.authHandler import get_current_user
 
-FILE_PATH = "./static/images/"
+USER_IAMGES_FILE_PATH = "user_images/"
+
+def check_if_image(file: bytes):
+    file_type = imghdr.what(None, file)
+    if file_type is None:
+        # The file is not an image
+        raise HTTPException(status_code=412, detail="File is not image type! (imageHelpers)")
+    return file_type
+
+def delete_photo(photo_url: str):
+    pass
 
 
-def get_user_image_by_id(db: Session, index: int):
-    return db.query(UserModel).filter(UserModel.id == index).first()
-
-
-def check_if_image(extension: str):
-    if extension not in ["png", "jpg"]:
-        raise HTTPException(status_code=412, detail="Wrong file format! (imageHelpers)")
-
-
-def update_user_profile_image(db: Session, file: File, user_id: int):
-    db_user = get_user_by_id(db=db, index=user_id)
+async def update_user_profile_image(db: Session, file: File, token: str):
+    user = await get_current_user(db=db, token=token)
+    db_user = get_user_by_id(db=db, index=user.id)
     if db_user is None:
         raise HTTPException(status_code=412, detail="User doesnt exist! (imageHelpers)")
-    filename = file.filename
-    extension = filename.split(".")[1]
-    check_if_image(extension=extension)
 
-    token_name = secrets.token_hex(10) + "." + extension
-    generated_name = FILE_PATH + "user/" + token_name
-    file_content = file.file.read()
+    if db_user.photo_url:
+        parsed_url = urlparse(db_user.photo_url)
+        path = parsed_url.path
+        file_name = path.split("/")[-1]
+        actual_file_name = file_name.split("%2F")[-1]
+        storage.delete(USER_IAMGES_FILE_PATH+str(actual_file_name), token=None)
 
-    with open(generated_name, "wb") as file:
-        file.write(file_content)
+    extension = check_if_image(file=file)
+    token_name = secrets.token_hex(10) + "." + str(extension)
+    new_file_path = USER_IAMGES_FILE_PATH + token_name
+    storage.child(new_file_path).put(bytearray(file))
 
-    img = Image.open(generated_name)
-    img = img.resize(size=(200, 200))
-    img.save(generated_name)
-    img.close()
-
-    db_user.photo = file_content
+    image_url = storage.child(new_file_path).get_url(token=None)
+    db_user.photo_url = image_url
     db.commit()
     db.refresh(db_user)
 
-    file_url = "localhost:8000" + generated_name[1:]
-    return FileResponse(file_url)
+    return {"message": "Image uploaded successfully!"}
 
 
 

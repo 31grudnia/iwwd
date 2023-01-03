@@ -15,7 +15,7 @@ class Animal(Base):
     kind = Column(String(6), nullable=False)
     weight = Column(Float, nullable=False)
     height = Column(Float, nullable=False)
-    photo = Column(LargeBinary, nullable=True)
+    photo_url = Column(String(255), nullable=True)
     bio = Column(String(256), nullable=True)
     pins = Column(Integer, nullable=True)
     time_created = Column(DateTime(timezone=True), server_default=func.now())

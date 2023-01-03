@@ -16,7 +16,7 @@ class User(Base):
     phone_number = Column(String(15), unique=True, nullable=True)
     login = Column(String(50), unique=True, nullable=False)
     password = Column(String(80), nullable=False)
-    photo = Column(LargeBinary, nullable=True)
+    photo_url = Column(String(255), nullable=True)
     is_admin = Column(Boolean, nullable=False)
     coins = Column(Integer, nullable=False)
     favourites = Column(ARRAY(Integer), nullable=True)

@@ -8,7 +8,6 @@ from jose import JWTError, jwt
 from sqlalchemy.orm import Session
 
 from schemas.TokenSchema import Token, TokenData
-from schemas.LoginSchema import Login
 
 from helpers.userHelpers import get_user_by_login
 from helpers.passwordHelpers import get_password_hash, verify_password

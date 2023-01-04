@@ -17,3 +17,4 @@ from database.models.PostOfficeOpenTimeModel import PostOfficeOpenTime
 from database.models.SubcategoryModel import Subcategory
 from database.models.BrandModel import Brand
 from database.models.CategoryModel import Category
+from database.models.ProductImageModel import ProductImage

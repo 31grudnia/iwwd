@@ -18,6 +18,10 @@ USER_IMAGES_FILE_PATH = "user_images/"
 PRODUCT_IMAGES_FILE_PATH = "product_images/"
 
 
+def find_image_by_product_id(db: Session, product_id: int):
+    return db.query(ProductImageModel).filter(ProductImageModel.product_id == product_id).all()
+
+
 def check_if_image(file: bytes):
     file_type = imghdr.what(None, file)
     if file_type is None:
@@ -56,11 +60,20 @@ async def update_user_profile_image(db: Session, file: File, token: str):
 
     return {"message": "Image uploaded successfully!"}
 
+
 # , token: str
 async def add_product_images(db: Session, files: List[File], product_id: int):
     product_check = get_product_by_id(db=db, index=product_id)
     if product_check is None:
         raise HTTPException(status_code=412, detail="Product doesnt exist! (imageHelpers)")
+
+    old_images = find_image_by_product_id(db=db, product_id=product_id)
+    for image in old_images:
+        parsed_url = urlparse(image.photo_url)
+        path = parsed_url.path
+        file_name = path.split("/")[-1]
+        actual_file_name = file_name.split("%2F")[-1]
+        storage.delete(PRODUCT_IMAGES_FILE_PATH + str(actual_file_name), token=None)
 
     for file in files:
         extension = check_if_image(file=file)

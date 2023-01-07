@@ -11,7 +11,6 @@ class Product(BaseModel):
     rate: int = Field(default=0)
     ingredients: str = Field(default=None)
     dosage: str = Field(default=None)
-    favourite: bool = Field(default=False)
     subcategory_id: int
     brand_id: int
     type: str = Field(default="other")

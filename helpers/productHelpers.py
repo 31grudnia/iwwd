@@ -42,7 +42,6 @@ def add_product(db: Session, product: ProductSchema):
                               base_price=product.base_price, discount_price=product.discount_price,
                               discount_amount=product.discount_amount,
                               rate=product.rate, ingredients=product.ingredients, dosage=product.dosage,
-                              favourite=product.favourite,
                               subcategory_id=product.subcategory_id, brand_id=product.brand_id)
     db.add(db_product)
     db.commit()

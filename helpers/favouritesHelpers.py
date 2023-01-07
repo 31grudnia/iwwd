@@ -27,7 +27,6 @@ async def add_product_to_favourites(product_id: int, db: Session, token: str):
         return {f"Record with id: {product_id} added successfully to favourites!": db_user.favourites}
 
 
-#   dodac sprawdzanie czy id produktu istnieje
 async def delete_product_from_favourites(product_id: int, db: Session, token: str):
     user = await get_current_user(db=db, token=token)
     db_user = get_user_by_id(db=db, index=user.id)

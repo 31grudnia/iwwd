@@ -18,12 +18,14 @@ router = fastapi.APIRouter()
 
 
 @router.patch("/product/{product_id}/add-to-favourites", tags=['product'], status_code=201)
-async def product_add_to_favourites(product_id: int, db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
+async def product_add_to_favourites(product_id: int, db: Session = Depends(get_db),
+                                    token: str = Depends(oauth2_scheme)):
     fav = await add_product_to_favourites(db=db, product_id=product_id, token=token)
     return {f"Updated product with id: {product_id}": fav}
 
 
 @router.patch("/product/{product_id}/delete-from-favourites", tags=['product'], status_code=201)
-async def product_delete_from_favourites(product_id: int, db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
+async def product_delete_from_favourites(product_id: int, db: Session = Depends(get_db),
+                                         token: str = Depends(oauth2_scheme)):
     fav = await delete_product_from_favourites(db=db, product_id=product_id, token=token)
     return {f"Updated product with id: {product_id}": fav}

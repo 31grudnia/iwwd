@@ -74,6 +74,8 @@ async def add_product_images(db: Session, files: List[File], product_id: int):
         file_name = path.split("/")[-1]
         actual_file_name = file_name.split("%2F")[-1]
         storage.delete(PRODUCT_IMAGES_FILE_PATH + str(actual_file_name), token=None)
+        db.delete(image)
+    db.commit()
 
     for file in files:
         extension = check_if_image(file=file)

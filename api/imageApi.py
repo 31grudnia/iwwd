@@ -18,7 +18,7 @@ async def user_update_profile_picture(file: bytes = File(...), db: Session = Dep
     return {f"Updated user's profile picture.": image_response}
 
 
-@router.post("/user/{prodyct_id}/product-image-add", tags=['product'], status_code=201)
+@router.post("/user/{product_id}/product-image-add", tags=['product'], status_code=201)
 async def product_add_pictures(product_id: int, files: List[bytes] = File(...), db: Session = Depends(get_db)):
     image_response = await add_product_images(db=db, files=files, product_id=product_id)
     return {f"Updated product pics with id {product_id}.": image_response}

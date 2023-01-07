@@ -23,6 +23,7 @@ class User(Base):
     disabled = Column(Boolean, nullable=False)
     refresh_token = Column(String(255), nullable=True)
     recovery_token = Column(String(255), nullable=True)
+    recovery_token_expiration = Column(DateTime(timezone=True))
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())
 

@@ -90,6 +90,10 @@ async def read_users_me(db: Session = Depends(get_db), token: str = Depends(oaut
     user = await get_current_user(db=db, token=token)
     return {"Current User's id: ": user.id}
 
+@router.patch("/user/change_password/{recovery_token}", status_code=201)
+async def change_user_password(recovery_token: str, db: Session = Depends(get_db)):
+    pass
+
 
 
 

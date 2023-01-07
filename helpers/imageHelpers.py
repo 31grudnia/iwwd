@@ -17,6 +17,7 @@ from authentication.authHandler import get_current_user
 USER_IMAGES_FILE_PATH = "user_images/"
 PRODUCT_IMAGES_FILE_PATH = "product_images/"
 
+
 def check_if_image(file: bytes):
     file_type = imghdr.what(None, file)
     if file_type is None:
@@ -63,7 +64,7 @@ async def add_product_images(db: Session, files: List[File], product_id: int):
 
     for file in files:
         extension = check_if_image(file=file)
-        token_name = secrets.token_hex(10) + "." + str(extension)
+        token_name = str(product_id) + secrets.token_hex(10) + "." + str(extension)
         new_file_path = PRODUCT_IMAGES_FILE_PATH + token_name
         storage.child(new_file_path).put(bytearray(file))
         image_url = storage.child(new_file_path).get_url(token=None)

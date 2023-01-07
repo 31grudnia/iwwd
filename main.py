@@ -6,7 +6,7 @@ from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 
 from api import usersApi, animalsApi, productApi, categoryApi, subcategoryApi, brandApi, breedApi, paymentMethodCategoryApi, \
-    favouritesApi, imageApi, tokenApi, dbGeneratorApi
+    favouritesApi, imageApi, emailApi, tokenApi, dbGeneratorApi
 
 load_dotenv(".env")
 
@@ -47,6 +47,7 @@ app.include_router(brandApi.router)
 app.include_router(breedApi.router)
 app.include_router(paymentMethodCategoryApi.router)
 
+app.include_router(emailApi.router)
 app.include_router(tokenApi.router)
 app.include_router(imageApi.router)
 app.include_router(dbGeneratorApi.router)

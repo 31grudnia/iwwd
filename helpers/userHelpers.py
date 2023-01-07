@@ -24,6 +24,10 @@ def get_user_by_login(db: Session, login: str):
     return db.query(UserModel).filter(UserModel.login == login).first()
 
 
+def get_user_by_recovery_token(db: Session, token: str):
+    return db.query(UserModel).filter(UserModel.recovery_token == token).first()
+
+
 def get_user_by_phone_number(db: Session, phone_num: str):
     if len(phone_num) == 9:
         return db.query(UserModel).filter(UserModel.phone_number == phone_num).first()

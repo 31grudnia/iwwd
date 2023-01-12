@@ -33,6 +33,5 @@ class Product(Base):
     brand = relationship("Brand", back_populates="product")
 
     order = relationship("Order", secondary=OrderProduct.__tablename__, back_populates="product")
-    feedback = relationship("Feedback", back_populates="product")
     product_image = relationship("ProductImage", back_populates="product")
 

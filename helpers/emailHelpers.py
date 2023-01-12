@@ -60,6 +60,8 @@ def send_recovery_token(recovery_schema: PasswordRecoverySender, db: Session):
     with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as stmp:
         stmp.login(EMAIL_SENDER, EMAIL_PASSWORD)
         stmp.sendmail(EMAIL_SENDER, recovery_schema.email_receiver, em.as_string())
+        del em['To']
+    return recovery_token
 
 
 def change_user_password(recovery_schema: PasswordRecoveryReceiver, db: Session):
@@ -92,3 +94,4 @@ def change_user_password(recovery_schema: PasswordRecoveryReceiver, db: Session)
     with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as stmp:
         stmp.login(EMAIL_SENDER, EMAIL_PASSWORD)
         stmp.sendmail(EMAIL_SENDER, recovery_schema.email_receiver, em.as_string())
+        del em['To']

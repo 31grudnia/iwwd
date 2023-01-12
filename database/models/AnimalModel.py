@@ -1,4 +1,4 @@
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Date, Float, Text, LargeBinary
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Date, Float, ARRAY
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
@@ -17,7 +17,7 @@ class Animal(Base):
     height = Column(Float, nullable=False)
     photo_url = Column(String(255), nullable=True)
     bio = Column(String(256), nullable=True)
-    pins = Column(Integer, nullable=True)
+    pins = Column(ARRAY(Integer), nullable=True)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())
 

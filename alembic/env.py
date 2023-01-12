@@ -13,9 +13,9 @@ from dotenv import load_dotenv
 """
 from database.db_setup import Base
 from database.models import StatusModel, OrderProductModel, AddressModel, AnimalModel, BrandModel, BreedModel, \
-    CategoryModel, CommentModel, FeedbackModel, SubcategoryModel, OrderModel, PaymentCardModel, PaymentMethodModel, \
-    PaymentMethodCategoryModel, PinModel, PostModel, PostOfficeModel, PostOfficeOpenTimeModel, UserModel, WalkModel,\
-    ProductModel, ProductImageModel
+    CategoryModel, SubcategoryModel, OrderModel, PaymentMethodModel, \
+    PinModel, PostOfficeModel, UserModel, WalkModel,\
+    ProductModel, ProductImageModel, PostOfficeAddressModel, PostOfficeWorkTimeModel, DeliveryMethodModel
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

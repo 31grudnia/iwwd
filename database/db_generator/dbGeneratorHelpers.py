@@ -66,6 +66,9 @@ def generate_product_records(db: Session, n: int):
         db.add(db_product)
     db.commit()
 
+def generate_postals_records(db: Session, n: int):
+    pass
+
 
 
 

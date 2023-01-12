@@ -32,7 +32,7 @@ def add_animal(db: Session, animal: AnimalSchema, user_id: int):
 
     db_animal = AnimalModel(name=animal.name.title(), sex=animal.sex.title(), kind=animal.kind.title(),
                             weight=animal.weight, height=animal.height,
-                            photo=animal.photo, bio=animal.bio, pins=animal.pins,
+                            photo_url=animal.photo, bio=animal.bio, pins=animal.pins,
                             user_id=user_id, breed_id=animal.breed_id, birth_date=animal.birth_date)
     db.add(db_animal)
     db.commit()
@@ -48,7 +48,7 @@ def update_animal_by_id(db: Session, animal: AnimalUpdateSchema, animal_id: int)
     check_animal.name = animal.name.title()
     check_animal.weight = animal.weight
     check_animal.height = animal.height
-    check_animal.photo = animal.photo
+    check_animal.photo_url = animal.photo
     check_animal.bio = animal.bio
     check_animal.pins = animal.pins
 

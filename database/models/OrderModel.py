@@ -13,6 +13,10 @@ class Order(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     order_code = Column(String(15), nullable=True)
+    city = Column(String(30), nullable=True)
+    street = Column(String(40), nullable=True)
+    home_number = Column(String(10), nullable=True)
+    post_code = Column(String(6), nullable=True)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())
 
@@ -23,5 +27,6 @@ class Order(Base):
     user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
     user = relationship("User", back_populates="order")
 
+    delivery_method = relationship("DeliveryMethod", back_populates="order")
     post_office = relationship("PostOffice", back_populates="order")
     product = relationship("Product", secondary=OrderProduct.__tablename__, back_populates="order")

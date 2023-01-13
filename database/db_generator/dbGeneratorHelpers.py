@@ -24,8 +24,8 @@ def generate_user_records(db: Session, n: int):
     for i in range(n):
         db_user = UserModel(name=fake.name(), surname=fake.last_name(), email=fake.unique.ascii_email(),
                             phone_number=str(fake.unique.msisdn()), login=fake.unique.user_name(),
-                            password=get_password_hash(str(i)), photo_url=DEFAULT_USER_IMAGES[i%2], is_admin=False, coins=0, favourites=[],
-                            disabled=False)
+                            password=get_password_hash(str(i)), photo_url=DEFAULT_USER_IMAGES[i%2],
+                            coins=0, favourites=[])
         db.add(db_user)
     db.commit()
     return True
@@ -65,6 +65,7 @@ def generate_product_records(db: Session, n: int):
                                                    discount_amount=db_product.discount_amount)
         db.add(db_product)
     db.commit()
+
 
 def generate_postals_records(db: Session, n: int):
     pass

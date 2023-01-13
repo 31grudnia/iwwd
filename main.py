@@ -45,7 +45,7 @@ app.include_router(categoryApi.router)
 app.include_router(subcategoryApi.router)
 app.include_router(brandApi.router)
 app.include_router(breedApi.router)
-app.include_router(paymentMethodCategoryApi.router)
+# app.include_router(paymentMethodCategoryApi.router)
 
 app.include_router(emailApi.router)
 app.include_router(tokenApi.router)

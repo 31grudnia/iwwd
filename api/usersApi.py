@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 from helpers.passwordHelpers import get_password_hash
 from helpers.userHelpers import check_login_user, add_user_by_web, get_user_by_login, get_user_by_email, \
-    update_addressid_in_user, get_user_by_phone_number, add_user_by_mobile
+    update_addressid_in_user, get_user_by_phone_number, add_user_by_mobile, delete_user_by_id
 from helpers.addressHelpers import add_address_by_web
 from authentication.authHandler import get_current_user, oauth2_scheme, create_access_token, ACCESS_TOKEN_EXPIRE_MINUTES
 
@@ -90,12 +90,15 @@ async def read_users_me(db: Session = Depends(get_db), token: str = Depends(oaut
     user = await get_current_user(db=db, token=token)
     return {"Current User's id: ": user.id}
 
+
 @router.patch("/user/change_password/{recovery_token}", status_code=201)
 async def change_user_password(recovery_token: str, db: Session = Depends(get_db)):
     pass
 
 
-
+@router.delete("/user/delete/{user_id}", tags=['user'], status_code=201)
+async def user_delete(user_id: int, db: Session = Depends(get_db)):
+    return delete_user_by_id(db=db, user_id=user_id)
 
 
 

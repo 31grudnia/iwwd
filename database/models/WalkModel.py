@@ -13,8 +13,9 @@ class Walk(Base):
     distance = Column(Float, nullable=False)
     coins_gained = Column(Integer, nullable=False)
     photo_url = Column(String(255), nullable=False)
+    animals_id = Column(ARRAY(Integer), nullable=False)
 
-    animal_id = Column(ARRAY(Integer), ForeignKey("animal.id"), nullable=False)
+    animal_id = Column(Integer, ForeignKey("animal.id"), nullable=False)
     animal = relationship("Animal", back_populates="walk")
     user_id = Column(Integer, ForeignKey("user.id"), nullable=False)  # ???
     user = relationship("User", back_populates="walk")

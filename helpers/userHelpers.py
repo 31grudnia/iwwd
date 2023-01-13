@@ -47,9 +47,10 @@ def add_user_by_web(db: Session, user: RegisterWebSchema):
     if db_user:
         raise HTTPException(status_code=401, detail="Login already registered!")
 
-    db_user = UserModel(name=user.name.title(), surname=user.surname.title(), email=user.email, #refresh_token=signJWT(user.email, 2_600_000),
+    db_user = UserModel(name=user.name.title(), surname=user.surname.title(), email=user.email,
                         phone_number=user.phone_number, login=user.login, password=get_password_hash(user.password),
-                        photo_url=None, is_admin=False, coins=0, disabled=False, favourites=[])
+                        photo_url="https://firebasestorage.googleapis.com/v0/b/iwwd-77dbe.appspot.com/o/user_images%2Fprofile_picture_man.png?alt=media&token=03c86f39-2a32-4892-8e39-16a79c8cf45e",
+                        coins=0, favourites=[])
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -66,7 +67,8 @@ def add_user_by_mobile(db: Session, user: RegisterMobileSchema):
         raise HTTPException(status_code=401, detail="Email already registered! (userHelpers file)")
 
     db_user = UserModel(email=user.email, login=user.login, password=get_password_hash(user.password),
-                        photo_url=None, is_admin=False, coins=0, favourites=[], disabled=False)
+                        photo_url="https://firebasestorage.googleapis.com/v0/b/iwwd-77dbe.appspot.com/o/user_images%2Fprofile_picture_man.png?alt=media&token=03c86f39-2a32-4892-8e39-16a79c8cf45e",
+                        coins=0, favourites=[])
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -82,6 +84,15 @@ def update_addressid_in_user(db: Session, address_index: int, user_index: int):
     db.commit()
     db.refresh(user_to_update)
     return user_to_update
+
+
+def delete_user_by_id(db: Session, user_id: int):
+    check_user = get_user_by_id(db=db, index=user_id)
+    if check_user is None:
+        raise HTTPException(status_code=402, detail="User doesnt exist! (userHelpers file)")
+    db.delete(check_user)
+    db.commit()
+    return {"message": "Record successfully deleted"}
 
 
 def check_login_user(db: Session, data: LoginSchema = Body(default=None)):

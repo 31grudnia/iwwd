@@ -1,9 +1,9 @@
-from sqlalchemy.orm import Session
-from fastapi import HTTPException
-
-# from database.models.PaymentMethodCategoryModel import PaymentMethodCategory as PaymentMethodCategoryModel
-
-from schemas import PaymentMethodCategorySchema
+# from sqlalchemy.orm import Session
+# from fastapi import HTTPException
+#
+# # from database.models.PaymentMethodCategoryModel import PaymentMethodCategory as PaymentMethodCategoryModel
+#
+# from schemas import PaymentMethodCategorySchema
 
 
 # def get_payment_method_category_by_id(db: Session, index: int):

@@ -4,7 +4,8 @@ from sqlalchemy.orm import Session
 from database.db_setup import get_db
 from dotenv import load_dotenv
 
-from database.db_generator.dbGeneratorHelpers import generate_user_records, generate_product_records
+from database.db_generator.dbGeneratorHelpers import generate_user_records, generate_product_records,\
+    generate_breeds_records
 
 
 load_dotenv(".env")
@@ -25,4 +26,10 @@ async def generator_users(n: int, db: Session = Depends(get_db)):
 @router.post("/records/products", tags=['generator'], status_code=201)
 async def generator_products(n: int, db: Session = Depends(get_db)):
     generate_product_records(db=db, n=n)
+    return {"message": "Records inserted successfully."}
+
+
+@router.post("/records/breeds", tags=['generator'], status_code=201)
+async def generator_breeds(db: Session = Depends(get_db)):
+    generate_breeds_records(db=db)
     return {"message": "Records inserted successfully."}

@@ -47,7 +47,7 @@ async def user_register_web(user: RegisterWebSchema, db: Session = Depends(get_d
         data={"sub": user.name}, expires_delta=access_token_expires
     )
     return {"Token": access_token,
-            "Address Info": address_info,   # nie wyswietla sie nwm czemu
+            "Address Info": address_info.id,   # nie wyswietla sie nwm czemu
             "User Info": user_info
             }
 

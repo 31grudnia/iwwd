@@ -12,7 +12,6 @@ class Animal(Base):
     name = Column(String(50), nullable=False)
     birth_date = Column(Date, nullable=True)
     sex = Column(String(6), nullable=False)
-    kind = Column(String(6), nullable=False)
     weight = Column(Float, nullable=False)
     height = Column(Float, nullable=False)
     photo_url = Column(String(255), nullable=True)

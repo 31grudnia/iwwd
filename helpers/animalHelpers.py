@@ -6,6 +6,8 @@ from helpers.breedHelpers import get_breed_by_id
 
 from database.models.AnimalModel import Animal as AnimalModel
 
+from database.firebase_setup import DEFAULT_ANIMAL_IMAGE
+
 from schemas import AnimalSchema, AnimalUpdateSchema
 
 
@@ -30,9 +32,9 @@ def add_animal(db: Session, animal: AnimalSchema, user_id: int):
     if check_breed is None:
         raise HTTPException(status_code=409, detail="Breed doesnt exist! (animalHelpers file)")
 
-    db_animal = AnimalModel(name=animal.name.title(), sex=animal.sex.title(), kind=animal.kind.title(),
+    db_animal = AnimalModel(name=animal.name.title(), sex=animal.sex.title(),
                             weight=animal.weight, height=animal.height,
-                            photo_url=animal.photo, bio=animal.bio, pins=animal.pins,
+                            photo_url=DEFAULT_ANIMAL_IMAGE, bio=animal.bio, pins=[],
                             user_id=user_id, breed_id=animal.breed_id, birth_date=animal.birth_date)
     db.add(db_animal)
     db.commit()
@@ -48,9 +50,7 @@ def update_animal_by_id(db: Session, animal: AnimalUpdateSchema, animal_id: int)
     check_animal.name = animal.name.title()
     check_animal.weight = animal.weight
     check_animal.height = animal.height
-    check_animal.photo_url = animal.photo
     check_animal.bio = animal.bio
-    check_animal.pins = animal.pins
 
     db.commit()
     db.refresh(check_animal)

@@ -1,3 +1,4 @@
+from sqlalchemy import and_
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
 
@@ -9,8 +10,19 @@ from helpers.animalHelpers import get_animal_by_id
 from schemas.PinCreateSchema import PinCreate as PinCreateSchema
 from schemas.PinUpdateSchema import PinUpdate as PinUpdateSchema
 
+
 def get_pin_by_id(db: Session, index: int):
     return db.query(PinModel).filter(PinModel.id == index).first()
+
+
+def get_pins_with_same_user_id(db: Session, user_id: int, animal_id: int):
+    return db.query(PinModel).filter(and_(PinModel.user_id == user_id, PinModel.animal_id == animal_id)).all()
+
+
+async def get_pins(db: Session, token: str, animal_id: int):
+    user = await get_current_user(db=db, token=token)
+    pins = get_pins_with_same_user_id(db=db, user_id=user.id, animal_id=animal_id)
+    return pins
 
 
 async def create_new_pin(pin: PinCreateSchema, db: Session, token: str):

@@ -5,7 +5,7 @@ from database.db_setup import get_db
 from dotenv import load_dotenv
 from authentication.authHandler import oauth2_scheme
 
-from helpers.pinHelpers import create_new_pin, delete_pin, update_pin
+from helpers.pinHelpers import create_new_pin, delete_pin, update_pin, get_pins, get_pins_with_same_user_id
 
 from schemas.PinUpdateSchema import PinUpdate as PinUpdateSchema
 from schemas.PinCreateSchema import PinCreate as PinCreateSchema
@@ -17,6 +17,18 @@ router = fastapi.APIRouter()
 """
     PIN ENDPOINTS
 """
+
+
+@router.get("/pins/{animal_id}", tags=['pin'], status_code=201)
+async def pins_get_of_current_user(animal_id: int, db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
+    pins = await get_pins(db=db, token=token, animal_id=animal_id)
+    return {"pins": pins}
+
+
+@router.get("/pins/{user_id}/{animal_id}", tags=['pin'], status_code=201)
+async def pins_get_of_current_user(animal_id: int, user_id: int, db: Session = Depends(get_db)):
+    pins = get_pins_with_same_user_id(db=db, animal_id=animal_id, user_id=user_id)
+    return {"pins": pins}
 
 
 @router.post("/pin/add", tags=['pin'], status_code=201)

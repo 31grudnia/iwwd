@@ -1,5 +1,4 @@
 import os
-import sys
 from fastapi import FastAPI
 from fastapi_sqlalchemy import DBSessionMiddleware
 from fastapi.middleware.cors import CORSMiddleware

@@ -26,4 +26,3 @@ class Animal(Base):
     breed = relationship("Breed", back_populates="animal")
 
     pin = relationship("Pin", back_populates="animal")
-    walk = relationship("Walk", back_populates="animal")

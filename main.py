@@ -1,4 +1,5 @@
 import os
+import sys
 from fastapi import FastAPI
 from fastapi_sqlalchemy import DBSessionMiddleware
 from fastapi.middleware.cors import CORSMiddleware
@@ -6,7 +7,7 @@ from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 
 from api import usersApi, animalsApi, productApi, categoryApi, subcategoryApi, brandApi, breedApi, paymentMethodCategoryApi, \
-    favouritesApi, imageApi, emailApi, tokenApi, dbGeneratorApi
+    favouritesApi, imageApi, emailApi, tokenApi, dbGeneratorApi, walkApi, pinApi
 
 load_dotenv(".env")
 
@@ -36,7 +37,6 @@ app.add_middleware(CORSMiddleware,
 async def root():
     return {"message": "Hello World."}
 
-
 app.include_router(usersApi.router)
 app.include_router(animalsApi.router)
 app.include_router(productApi.router)
@@ -45,6 +45,8 @@ app.include_router(categoryApi.router)
 app.include_router(subcategoryApi.router)
 app.include_router(brandApi.router)
 app.include_router(breedApi.router)
+app.include_router(walkApi.router)
+app.include_router(pinApi.router)
 # app.include_router(paymentMethodCategoryApi.router)
 
 app.include_router(emailApi.router)

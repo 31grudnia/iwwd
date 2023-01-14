@@ -91,9 +91,9 @@ async def read_users_me(db: Session = Depends(get_db), token: str = Depends(oaut
     return {"Current User's id: ": user.id}
 
 
-@router.patch("/user/change_password/{recovery_token}", status_code=201)
-async def change_user_password(recovery_token: str, db: Session = Depends(get_db)):
-    pass
+# @router.patch("/user/change_info", tags=['user'], status_code=201)
+# async def user_update(user: AnimalUpdateSchema, db: Session = Depends(get_db)):
+#     return {"Updated user info": update_animal_by_id(db=db, animal=animal, animal_id=animal_id)}
 
 
 @router.delete("/user/delete/{user_id}", tags=['user'], status_code=201)

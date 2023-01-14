@@ -9,15 +9,13 @@ class Walk(Base):
     __tablename__ = "walk"
 
     id = Column(Integer, primary_key=True, index=True)
-    time = Column(Time, nullable=False)
+    time = Column(String(20), nullable=False)
     distance = Column(Float, nullable=False)
     coins_gained = Column(Integer, nullable=False)
-    photo_url = Column(String(255), nullable=False)
+    photo = Column(ARRAY(Integer), nullable=False)
     animals_id = Column(ARRAY(Integer), nullable=False)
 
-    animal_id = Column(Integer, ForeignKey("animal.id"), nullable=False)
-    animal = relationship("Animal", back_populates="walk")
-    user_id = Column(Integer, ForeignKey("user.id"), nullable=False)  # ???
+    user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
     user = relationship("User", back_populates="walk")
 
 

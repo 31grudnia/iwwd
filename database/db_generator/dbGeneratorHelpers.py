@@ -25,6 +25,12 @@ fake = Faker()
 
 # Generate a list of records to insert into the database
 def generate_user_records(db: Session, n: int):
+    Faker.seed(0)
+    for i in STATIC_BREEDS:
+        db_breed = BreedModel(name=i)
+        db.add(db_breed)
+    db.commit()
+
     sex = ["Male", "Female"]
     Faker.seed(0)
     for i in range(n):
@@ -34,6 +40,7 @@ def generate_user_records(db: Session, n: int):
                             coins=0, favourites=[])
         db.add(db_user)
     db.commit()
+
     Faker.seed(0)
     for i in range(n):
         db_animal = AnimalModel(name=fake.last_name_nonbinary().title(), sex=sex[i % 2],
@@ -81,21 +88,12 @@ def generate_product_records(db: Session, n: int):
         db_product.price = calculate_product_price(base_price=db_product.base_price, discount_price=db_product.discount_price,
                                                    discount_amount=db_product.discount_amount)
         db.add(db_product)
-        db_product_image = ProductImageModel(photo_url=DEFAULT_PRODUCT_IMAGE, product_id=db_product.id)
+    db.commit()
+
+    for i in range(n):
+        db_product_image = ProductImageModel(photo_url=DEFAULT_PRODUCT_IMAGE, product_id=i+1)
         db.add(db_product_image)
     db.commit()
-
-
-def generate_breeds_records(db: Session):
-    for i in STATIC_BREEDS:
-        db_breed = BreedModel(name=i)
-        db.add(db_breed)
-    db.commit()
-
-
-def generate_animals_records(db: Session, n: int):
-    Faker.seed(0)
-
 
 
 

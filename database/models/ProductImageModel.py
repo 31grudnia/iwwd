@@ -9,7 +9,7 @@ class ProductImage(Base):
     __tablename__ = "product_image"
 
     id = Column(Integer, primary_key=True, index=True)
-    photo_url = Column(String(255), unique=True, nullable=False)
+    photo_url = Column(String(255), nullable=False)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())
 

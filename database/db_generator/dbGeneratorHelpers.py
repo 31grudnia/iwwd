@@ -6,6 +6,8 @@ from database.models.ProductModel import Product as ProductModel
 from database.models.BreedModel import Breed as BreedModel
 from database.models.ProductImageModel import ProductImage as ProductImageModel
 from database.models.AnimalModel import Animal as AnimalModel
+from database.models.WalkModel import Walk as WalkModel
+from database.models.PinModel import Pin as PinModel
 from sqlalchemy.orm import Session
 
 from faker import Faker
@@ -52,7 +54,24 @@ def generate_user_records(db: Session, n: int):
                                 user_id=i+1, breed_id=fake.random_int(min=2, max=270), birth_date=fake.date())
         db.add(db_animal)
     db.commit()
-    return True
+
+    Faker.seed(0)
+    for j in range(2):
+        for i in range(n):
+            db_walk = WalkModel(time=fake.time(), distance=fake.pyfloat(left_digits=2, right_digits=2, positive=True,
+                                                    min_value=5, max_value=30),
+                                coins_gained=fake.random_int(min=10, max=1000), animals_id=[i+1], user_id=i+1, photo=[])
+            db.add(db_walk)
+    db.commit()
+
+    Faker.seed(0)
+    for j in range(2):
+        for i in range(n):
+            db_pin = PinModel(name=fake.street_name(), latitude=fake.latitude(), longtitude=fake.longitude(),
+                              description=fake.paragraph(nb_sentences=1),
+                              user_id=i+1, animal_id=i+1)
+            db.add(db_pin)
+    db.commit()
 
 
 def generate_product_records(db: Session, n: int):

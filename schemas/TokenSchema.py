@@ -10,7 +10,7 @@ class Token(BaseModel):
 
 
 class TokenData(BaseModel):
-    username: str | None = None
+    username_email: str | None = None
 
     class Config:
         orm_mode = True

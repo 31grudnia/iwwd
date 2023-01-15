@@ -12,6 +12,10 @@ from database.models.StatusModel import Status as StatusModel
 from database.models.PaymentMethodModel import PaymentMethod as PaymentMethodModel
 from database.models.OrderModel import Order as OrderModel
 from database.models.OrderProductModel import OrderProduct as OrderProductModel
+from database.models.PostOfficeAddressModel import PostOfficeAddress as PostOfficeAddressModel
+from database.models.PostOfficeModel import PostOffice as PostOfficeModel
+from database.models.PostOfficeWorkTimeModel import PostOfficeWorkTime as PostOfficeWorkTimeModel
+from database.models.DeliveryMethodModel import DeliveryMethod as DeliveryMethodModel
 
 from sqlalchemy.orm import Session
 from faker import Faker
@@ -21,7 +25,9 @@ from helpers.passwordHelpers import get_password_hash
 from helpers.productHelpers import calculate_product_price
 from database.firebase_setup import DEFAULT_USER_IMAGES, DEFAULT_BRAMD_IMAGES, DEFAULT_PRODUCT_IMAGE, \
     DEFAULT_ANIMAL_IMAGE
+from static.order_static.delivery_static import DELIVERY_METHOD_STATIC
 from static.order_static.payment_method_static import PAYMENT_METHOD_STATIC
+from static.order_static.post_office_work_time_static import POST_OFFCIE_WORK_TIME_STATIC
 from static.order_static.status_static import STATIC_STATUS
 
 fake = Faker()
@@ -152,4 +158,30 @@ def generate_all_records(db: Session, n: int):
     db.commit()
 
     Faker.seed(0)
+    for i in range(n*3):
+        db_po_address = PostOfficeAddressModel(city=fake.city(), street=fake.street_name(), longtitude=fake.longitude(),
+                                               building_number=fake.building_number(), latitude=fake.latitude())
+        db.add(db_po_address)
+    db.commit()
 
+    Faker.seed(0)
+    for i in range(n):
+        db_post_office = PostOfficeModel(name=fake.street_name(), order_id=i+1, post_office_address_id=i+1)
+        db.add(db_post_office)
+    db.commit()
+
+    for i in range(len(POST_OFFCIE_WORK_TIME_STATIC)):
+        for j in range(n):
+            db_po_work_time = PostOfficeWorkTimeModel(name=POST_OFFCIE_WORK_TIME_STATIC[i], work_time="07:00 - 23:00",
+                                                      post_office_id=j+1)
+            db.add(db_po_work_time)
+    db.commit()
+
+    Faker.seed(0)
+    for i in range(len(DELIVERY_METHOD_STATIC)):
+        db_delivery_method = DeliveryMethodModel(name=DELIVERY_METHOD_STATIC[i], logo="https://firebasestorage.googleapis.com/v0/b/iwwd-77dbe.appspot.com/o/delivery_method_images%2FDelivery_method_placeholder.png?alt=media&token=1fdd2ee5-bcc5-48be-9737-c3eed31bc033"
+                                                 , delivery_payment=5.00,
+                                                 delivery_time=fake.date_this_month(before_today=False, after_today=True),
+                                                 postal_points=[i, i+1, i+2])
+        db.add(db_delivery_method)
+    db.commit()

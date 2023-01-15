@@ -1,4 +1,4 @@
-from sqlalchemy import Column, DateTime, Integer, String, ForeignKey, Float, ARRAY
+from sqlalchemy import Column, DateTime, Integer, String, ForeignKey, Float, ARRAY, Date
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
@@ -12,7 +12,7 @@ class DeliveryMethod(Base):
     name = Column(String(80), nullable=False)
     logo = Column(String(255), nullable=False)
     delivery_payment = Column(Float, nullable=False)
-    delivery_time = Column(DateTime(timezone=True), nullable=False)
+    delivery_time = Column(Date, nullable=False)
     postal_points = Column(ARRAY(Integer), nullable=False)
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())

@@ -14,6 +14,10 @@ from database.models.OrderModel import Order as OrderModel
 from database.models.OrderProductModel import OrderProduct as OrderProductModel
 
 
+def get_order_by_id(db: Session, index: int):
+    return db.query(OrderModel).filter(OrderModel.id == index).first()
+
+
 def get_orders_with_products_by_user_id(db: Session, user_id: int):
     subquery = select([OrderModel.id]).where(OrderModel.user_id == user_id)
     query = db.query(OrderModel, OrderProductModel)\

@@ -14,6 +14,7 @@ class Product(Base):
     title = Column(String(80), unique=True, nullable=False)
     short_description = Column(String(80), nullable=True)
     long_description = Column(Text, nullable=True)
+    amount = Column(Integer, nullable=False)
 
     price = Column(Float, nullable=False)
     base_price = Column(Float, nullable=False)

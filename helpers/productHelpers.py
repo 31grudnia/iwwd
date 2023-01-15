@@ -42,7 +42,8 @@ def add_product(db: Session, product: ProductSchema):
                               base_price=product.base_price, discount_price=product.discount_price,
                               discount_amount=product.discount_amount,
                               rate=product.rate, ingredients=product.ingredients, dosage=product.dosage,
-                              subcategory_id=product.subcategory_id, brand_id=product.brand_id)
+                              subcategory_id=product.subcategory_id, brand_id=product.brand_id,
+                              amount=product.amount)
     db.add(db_product)
     db.commit()
     db.refresh(db_product)
@@ -76,6 +77,7 @@ def update_product_by_id(db: Session, product: ProductSchema, product_id: int):
     check_product.favourite = product.favourite
     check_product.subcategory_id = product.subcategory_id
     check_product.brand_id = product.brand_id
+    check_product.amount = product.amount
 
     db.commit()
     db.refresh(check_product)

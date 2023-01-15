@@ -7,7 +7,7 @@ from database.db_setup import Base
 class OrderProduct(Base):
     __tablename__ = "order_product"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     order_id = Column(ForeignKey("order.id"), primary_key=True)
     product_id = Column(ForeignKey("product.id"), primary_key=True)
     amount = Column(Integer, nullable=False)

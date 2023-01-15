@@ -13,6 +13,7 @@ class Product(BaseModel):
     dosage: str = Field(default=None)
     subcategory_id: int
     brand_id: int
+    amount: int
     type: str = Field(default="other")
 
     class Config:

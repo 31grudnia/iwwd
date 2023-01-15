@@ -12,7 +12,7 @@ class Order(Base):
     __table_args__ = {'extend_existing': True}
 
     id = Column(Integer, primary_key=True, index=True)
-    order_code = Column(String(15), nullable=True)
+    order_code = Column(String(20), nullable=False, unique=True)
     city = Column(String(30), nullable=True)
     street = Column(String(40), nullable=True)
     home_number = Column(String(10), nullable=True)

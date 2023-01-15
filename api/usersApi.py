@@ -7,14 +7,15 @@ from database.db_setup import get_db
 from dotenv import load_dotenv
 
 from helpers.passwordHelpers import get_password_hash
-from helpers.userHelpers import check_login_user, add_user_by_web, get_user_by_login, get_user_by_email, \
-    update_addressid_in_user, get_user_by_phone_number, add_user_by_mobile, delete_user_by_id
-from helpers.addressHelpers import add_address_by_web
+from helpers.userHelpers import check_login_user, add_user_by_web, get_user_by_email, \
+    update_addressid_in_user, add_user_by_mobile, delete_user_by_id, update_user, update_user_password_by_web
+from helpers.addressHelpers import add_address_by_web, get_address_by_id
 from authentication.authHandler import get_current_user, oauth2_scheme, create_access_token, ACCESS_TOKEN_EXPIRE_MINUTES
 
 from database.models.UserModel import User as UserModel
 from database.models.AddressModel import Address as AddressModel
-
+from schemas.UserUpadteSchema import UserUpdate as UserUpadteSchema
+from schemas.UserUpdatePasswordSchema import UserUpdatePassword as UserUpdatePasswordSchema
 from schemas.RegisterWebSchema import WebRegister as RegisterWebSchema
 from schemas.RegisterMobileSchema import MobileRegister as RegisterMobileSchema
 from schemas.LoginSchema import Login as LoginSchema
@@ -47,7 +48,7 @@ async def user_register_web(user: RegisterWebSchema, db: Session = Depends(get_d
         data={"sub": user.name}, expires_delta=access_token_expires
     )
     return {"Token": access_token,
-            "Address Info": address_info.id,   # nie wyswietla sie nwm czemu
+            "Address Info": address_info.id,
             "User Info": user_info
             }
 
@@ -91,14 +92,23 @@ async def read_users_me(db: Session = Depends(get_db), token: str = Depends(oaut
     return {"Current User's id: ": user.id}
 
 
-# @router.patch("/user/change_info", tags=['user'], status_code=201)
-# async def user_update(user: AnimalUpdateSchema, db: Session = Depends(get_db)):
-#     return {"Updated user info": update_animal_by_id(db=db, animal=animal, animal_id=animal_id)}
-
-
 @router.delete("/user/delete/{user_id}", tags=['user'], status_code=201)
 async def user_delete(user_id: int, db: Session = Depends(get_db)):
     return delete_user_by_id(db=db, user_id=user_id)
 
 
+@router.get("/user/{address_id}", tags=['address'], status_code=201)
+async def get_address(address_id: int, db: Session = Depends(get_db)):
+    return get_address_by_id(db=db, index=address_id)
 
+
+@router.patch("/user/update", tags=['user'], status_code=201)
+async def user_update(user: UserUpadteSchema, db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
+    user = await update_user(db=db, userSchema=user, token=token)
+    return {f"Updated user": "succesfully"}
+
+
+@router.patch("/user/update_password", tags=['user'], status_code=201)
+async def update_user_password(user: UserUpdatePasswordSchema, db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
+    user = await update_user_password_by_web(db=db, userSchema=user, token=token)
+    return {f"Updated user": "succesfully"}

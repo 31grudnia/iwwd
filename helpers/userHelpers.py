@@ -1,11 +1,18 @@
 from sqlalchemy.orm import Session
 from fastapi import Body, HTTPException
 
+from authentication.authHandler import get_current_user
+from helpers.addressHelpers import get_address_by_id
 from helpers.passwordHelpers import get_password_hash, verify_password
 
 from database.models.UserModel import User as UserModel
+from database.models.AddressModel import Address as AddressModel
 
-from schemas import RegisterWebSchema, RegisterMobileSchema, LoginSchema
+from schemas.RegisterMobileSchema import MobileRegister as RegisterMobileSchema
+from schemas.LoginSchema import Login as LoginSchema
+from schemas.RegisterWebSchema import WebRegister as RegisterWebSchema
+from schemas.UserUpadteSchema import UserUpdate as UserUpadteSchema
+from schemas.UserUpdatePasswordSchema import UserUpdatePassword as UserUpdatePasswordSchema
 
 
 def get_users(db: Session, skip: int = 0, limit: int = 100):
@@ -93,6 +100,49 @@ def delete_user_by_id(db: Session, user_id: int):
     db.delete(check_user)
     db.commit()
     return {"message": "Record successfully deleted"}
+
+
+async def update_user(db: Session, userSchema: UserUpadteSchema, token: str):
+    if len(userSchema.phone_number) != 9:
+        raise HTTPException(status_code=402, detail="Wrong phone number given! (userHelpers file)")
+
+    user = await get_current_user(db=db, token=token)
+    db_user = get_user_by_id(db=db, index=user.id)
+    
+    db_user.name = userSchema.name.title()
+    db_user.surname = userSchema.surname.title()
+    db_user.phone_number = userSchema.phone_number
+
+    db_address = get_address_by_id(db=db, index=db_user.address_id)
+    if db_address is None:
+        db_address = AddressModel(city=userSchema.city, street=userSchema.street, state=userSchema.state, home_number=
+                                  userSchema.home_number, post_code=userSchema.post_code, user_id=user.id)
+        db.add(db_address)
+        db.commit()
+        db_user.address_id = db_address.id
+    else:
+        db_address.city = userSchema.city
+        db_address.street = userSchema.street
+        db_address.state = userSchema.state
+        db_address.home_number = userSchema.home_number
+        db_address.post_code = userSchema.post_code
+    db.commit()
+    db.refresh(db_user)
+    db.refresh(db_address)
+    return {"User": db_user,
+            "Address": db_address}
+
+
+async def update_user_password_by_web(db: Session, userSchema: UserUpdatePasswordSchema, token: str):
+    user = await get_current_user(db=db, token=token)
+
+    if verify_password(plain_password=userSchema.old_password, hashed_password=user.password):
+        db_user = get_user_by_id(db=db, index=user.id)
+        db_user.password = get_password_hash(userSchema.new_password)
+        db.commit()
+        db.refresh(db_user)
+    else:
+        raise HTTPException(status_code=402, detail="Old password doesnt match! (userHelpers file)")
 
 
 def check_login_user(db: Session, data: LoginSchema = Body(default=None)):

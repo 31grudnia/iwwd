@@ -7,10 +7,10 @@ from dotenv import load_dotenv
 from jose import JWTError, jwt
 from sqlalchemy.orm import Session
 
-from schemas.TokenSchema import Token, TokenData
+from database.models.UserModel import User as UserModel
+from schemas.TokenSchema import TokenData
 
-from helpers.userHelpers import get_user_by_login, get_user_by_email
-from helpers.passwordHelpers import get_password_hash, verify_password
+from helpers.passwordHelpers import verify_password
 
 load_dotenv(".env")
 
@@ -18,6 +18,10 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 JWT_SECRET = os.environ["SECRET"]
 JWT_ALGORITHM = os.environ["ALGORITHM"]
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+
+def get_user_by_email(db: Session, email: str):
+    return db.query(UserModel).filter(UserModel.email == email).first()
 
 
 #   Move to another file

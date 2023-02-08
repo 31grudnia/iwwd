@@ -1,26 +1,42 @@
+## Technologies
 
-## How to run for Szamil
+* Python 3.10
+* FastAPI
+* Docker
+* PostgreSQL
+* Firebase
 
-1. Zbudowanie obrazów i kontenerów od zera:
+## Functionalities
+
+* CRUD of tables
+* Data validation 
+* Password recovery via link sent to users email
+* Hashing passwords
+* JWT-based service authorization
+* Data stored using PostgreSQL and Firebase
+
+## How to run 
+
+1. Building images and container
 
 ```bash
   docker-compose build
 ```
-2. Uruchomienie Kontera:
+2. Starting Container:
 
 ```bash
   docker-compose up
 ```
 
-3. Następnie przechodzimy do bazy danych (domyślnie [localhost:5050](localhost:5050))
+3. Server data base (domyślnie [localhost:5050](localhost:5050))
 
-4. Po lewej stronie widzymy jedną zakładkę "Servers". Klikamy na nią PRAWYM przyciskiem myszki i wybieramy opcję "Register->Server".
+4. Find "Servers". Click RMB and "Register->Server".
 
-5. Uzupełniamy: "Name: iwwd_db" 
+5. Fill: "Name: iwwd_db" 
 
-6. Wybieramy zakładkę "Connection" (Ponad polem, które właśnie wypełniliśmy)
+6. Find "Connection" 
 
-7. Uzupełniamy: 
+7. Fill: 
 "Host name: db", 
 
 "Maintance database: iwwd_db",
@@ -29,19 +45,17 @@
 
 "Password: password"
 
-8. Stworzenie migracji :
+8. Migration:
 
 ```bash
   docker-compose run app alembic revision --autogenerate -m "New Migration"
 ```
-9. Popchnięcie migracji:
+9. Migration commit:
 
 ```bash
   docker-compose run app alembic upgrade head
 ```
 
-# For Mikołaj only 
-pip3 freeze > requirements.txt
 
 
 
